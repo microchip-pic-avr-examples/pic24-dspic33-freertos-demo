@@ -1,6 +1,6 @@
 ![image](images/microchip.jpg) 
 
-## %repoDescritpion%
+## PIC24 DSPIC33 FREERTOS DEMO
 
 Board Image if any.
 
