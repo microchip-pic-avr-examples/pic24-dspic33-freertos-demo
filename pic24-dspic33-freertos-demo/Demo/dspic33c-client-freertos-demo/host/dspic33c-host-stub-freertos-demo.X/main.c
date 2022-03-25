@@ -1,6 +1,6 @@
 #include <xc.h>
 #include <libpic30.h>
-#include "RTOSDemo_Slave.h"
+#include "dspic33c_client_freertos_demo.h"
 
 #pragma config FNOSC = FRC    //Master Oscillator Source Selection->Internal Fast RC (FRC)
 #pragma config ICS = PGD3     //Master ICD Communication Channel Select bits->Communicate on PGC3 and PGD3
@@ -72,7 +72,7 @@
 #pragma config S1FNOSC = FRC       //Oscillator Source Selection->Internal Fast RC (FRC)
 
 #define SLAVE_NUMBER    1
-#define SLAVE_IMAGE     RTOSDemo_Slave
+#define SLAVE_IMAGE     dspic33c_client_freertos_demo
 
 void SLAVE1_Start();
 void SLAVE1_Program();

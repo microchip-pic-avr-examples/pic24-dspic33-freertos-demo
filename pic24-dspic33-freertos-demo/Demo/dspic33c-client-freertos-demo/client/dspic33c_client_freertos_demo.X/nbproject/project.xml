@@ -3,7 +3,7 @@
     <type>com.microchip.mplab.nbide.embedded.makeproject</type>
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
-            <name>dspic33c-client-freertos-demo</name>
+            <name>dspic33c_client_freertos_demo</name>
             <creation-uuid>35a98026-c295-4ad8-be63-863fde1be90c</creation-uuid>
             <make-project-type>0</make-project-type>
             <c-extensions>c</c-extensions>

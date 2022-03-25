@@ -28,7 +28,7 @@
         <targetDevice>dsPIC33CH128MP508</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>ICD3PlatformTool</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
         <languageToolchainVersion>1.70</languageToolchainVersion>
         <platform>3</platform>
@@ -52,22 +52,22 @@
         </loading>
         <subordinates>
           <sproject>
-            <makeArtifact PL="../../slave/RTOSDemo_Slave.X"
+            <makeArtifact PL="../../client/dspic33c_client_freertos_demo.X"
                           CT="1"
                           CN="default"
                           AC="true"
                           BL="true"
-                          WD="../../slave/RTOSDemo_Slave.X"
+                          WD="../../client/dspic33c_client_freertos_demo.X"
                           BC="${MAKE}  -f Makefile CONF=default"
                           DBC="${MAKE}  -f Makefile CONF=default TYPE_IMAGE=DEBUG_RUN"
                           CC="rm -rf &quot;build/default&quot; &quot;dist/default&quot;"
-                          OP="dist/default/production/RTOSDemo_Slave.X.production.hex"
-                          DOP="dist/default/debug/RTOSDemo_Slave.X.debug.elf"
-                          FL="dist/default/production/RTOSDemo_Slave.X.production.hex"
-                          PD="dist/default/production/RTOSDemo_Slave.X.production.elf"
-                          DD="dist/default/debug/RTOSDemo_Slave.X.debug.elf">
+                          OP="dist/default/production/dspic33c_client_freertos_demo.X.production.hex"
+                          DOP="dist/default/debug/dspic33c_client_freertos_demo.X.debug.elf"
+                          FL="dist/default/production/dspic33c_client_freertos_demo.X.production.hex"
+                          PD="dist/default/production/dspic33c_client_freertos_demo.X.production.elf"
+                          DD="dist/default/debug/dspic33c_client_freertos_demo.X.debug.elf">
             </makeArtifact>
-            <simage>RTOSDemo_Slave</simage>
+            <simage>dspic33c_client_freertos_demo</simage>
             <saddress></saddress>
           </sproject>
           <score>
@@ -87,6 +87,7 @@
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
       <C30>
+        <property key="cast-align" value="false"/>
         <property key="code-model" value="default"/>
         <property key="const-model" value="default"/>
         <property key="data-model" value="default"/>
@@ -101,8 +102,8 @@
         <property key="enable-short-double" value="false"/>
         <property key="enable-symbols" value="true"/>
         <property key="enable-unroll-loops" value="false"/>
-        <property key="extra-include-directories"
-                  value="..\..\slave\RTOSDemo_Slave.X\dist\default\production"/>
+        <property key="expand-pragma-config" value="false"/>
+        <property key="extra-include-directories" value="..\..\client\SlaveImage"/>
         <property key="isolate-each-function" value="false"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
@@ -200,6 +201,7 @@
         <property key="warn-section-align" value="false"/>
       </C30-LD>
       <C30Global>
+        <property key="combine-sourcefiles" value="false"/>
         <property key="common-include-directories" value=""/>
         <property key="dual-boot-partition" value="0"/>
         <property key="fast-math" value="false"/>
@@ -207,6 +209,7 @@
         <property key="legacy-libc" value="true"/>
         <property key="mpreserve-all" value="false"/>
         <property key="oXC16glb-macros" value=""/>
+        <property key="omit-pack-options" value="1"/>
         <property key="output-file-format" value="elf"/>
         <property key="preserve-all" value="false"/>
         <property key="preserve-file" value=""/>
@@ -251,6 +254,8 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
@@ -321,6 +326,8 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="debugoptions.debug-startup" value="Use system settings"/>
+        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
