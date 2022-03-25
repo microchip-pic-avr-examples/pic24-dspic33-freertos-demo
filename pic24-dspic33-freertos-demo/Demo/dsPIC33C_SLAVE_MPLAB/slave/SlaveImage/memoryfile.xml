@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+  <executable name="dist/default/debug/RTOSDemo_Slave.X.debug.elf">
+    <memory name="data">
+      <units>bytes</units>
+      <length>4096</length>
+      <used>3402</used>
+      <free>694</free>
+    </memory>
+    <memory name="program">
+      <units>bytes</units>
+      <length>23808</length>
+      <used>21084</used>
+      <free>2724</free>
+    </memory>
+  </executable>
+</project>
