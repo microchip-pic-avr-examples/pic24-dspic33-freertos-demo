@@ -40,5 +40,5 @@ http://www.freertos.org/FAQHelp.html
 ## Hardware Used
 
 - Explorer 16/32 Development Board (https://www.microchip.com/DM240001-2)
-- dsPIC33CH128MP508 PIM (https://www.microchip.com/MA330040)
+- dsPIC33EP512MU810 PIM (https://www.microchip.com/MA330025-1)
 
