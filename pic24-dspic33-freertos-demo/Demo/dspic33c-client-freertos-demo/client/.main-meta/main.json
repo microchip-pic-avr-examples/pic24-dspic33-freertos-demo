@@ -5,9 +5,9 @@
       "metaDataVersion": "1.3.0",
       "name": "com.microchip.mplabx.project.dspic33c-client-freertos-demo",
       "version": "1.0.0",
-      "displayName": "DSPIC33CH Client FreeRTOS Demo",
+      "displayName": "dsPIC33CH Client FreeRTOS Demo",
       "projectName": "dspic33c-client-freertos-demo",
-      "shortDescription": "DSPIC33CH Client FreeRTOS Demo",
+      "shortDescription": "dsPIC33CH Client FreeRTOS Demo",
       "ide": {
          "name": "MPLABX",
          "semverRange": ">=6.0.0"
