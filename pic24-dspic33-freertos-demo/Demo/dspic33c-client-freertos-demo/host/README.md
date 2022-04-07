@@ -1,4 +1,4 @@
-![image](images/microchip.jpg) 
+![image](../../../../images/microchip.jpg) 
 
 ## PIC24 dsPIC33 FreeRTOS Demo
 
