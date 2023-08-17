@@ -70,11 +70,11 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.70</languageToolchainVersion>
+        <languageToolchainVersion>3.00</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="dsPIC33CH-MP_DFP" vendor="Microchip" version="1.10.223"/>
+        <pack name="dsPIC33CH-MP_DFP" vendor="Microchip" version="1.12.352"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -105,9 +105,9 @@
       </makeCustomizationType>
       <C30>
         <property key="cast-align" value="false"/>
-        <property key="code-model" value="large-code"/>
+        <property key="code-model" value="small-code"/>
         <property key="const-model" value="default"/>
-        <property key="data-model" value="large-data"/>
+        <property key="data-model" value="small-data"/>
         <property key="disable-instruction-scheduling" value="false"/>
         <property key="enable-all-warnings" value="true"/>
         <property key="enable-ansi-std" value="false"/>
@@ -122,7 +122,7 @@
         <property key="expand-pragma-config" value="false"/>
         <property key="extra-include-directories"
                   value="..;..\..\..\..\..\Demo\dsPIC_MPLAB;..\..\..\..\Demo\dsPIC_MPLAB;..\..\..\..\Source\include;..\..\..\..\include;..\..\..\Common\include;..\..\..\Source\include;..\..\..\include;..\..\Common\include;..\..\Demo\dsPIC_MPLAB;..\..\include;..\FileSystem;..\include;."/>
-        <property key="isolate-each-function" value="false"/>
+        <property key="isolate-each-function" value="true"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
         <property key="oXC16gcc-cnsts-mauxflash" value="false"/>
@@ -142,7 +142,7 @@
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value="MPLAB_DSPIC_PORT"/>
-        <property key="scalar-model" value="default"/>
+        <property key="scalar-model" value="small-scalar"/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
         <appendMe value="-fno-schedule-insns -fno-schedule-insns2"/>
@@ -210,7 +210,7 @@
         <property key="oXC16ld-nostdlib" value="false"/>
         <property key="oXC16ld-stackguard" value="16"/>
         <property key="preprocessor-macros" value=""/>
-        <property key="remove-unused-sections" value="false"/>
+        <property key="remove-unused-sections" value="true"/>
         <property key="report-memory-usage" value="true"/>
         <property key="secure-eeprom" value="no_eeprom"/>
         <property key="secure-flash" value="no_flash"/>
