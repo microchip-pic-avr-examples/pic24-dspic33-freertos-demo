@@ -30,11 +30,11 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.70</languageToolchainVersion>
+        <languageToolchainVersion>3.00</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="dsPIC33CH-MP_DFP" vendor="Microchip" version="1.10.223"/>
+        <pack name="dsPIC33CH-MP_DFP" vendor="Microchip" version="1.14.357"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
