@@ -105,9 +105,9 @@
       </makeCustomizationType>
       <C30>
         <property key="cast-align" value="false"/>
-        <property key="code-model" value="small-code"/>
+        <property key="code-model" value="large-code"/>
         <property key="const-model" value="default"/>
-        <property key="data-model" value="small-data"/>
+        <property key="data-model" value="large-data"/>
         <property key="disable-instruction-scheduling" value="false"/>
         <property key="enable-all-warnings" value="true"/>
         <property key="enable-ansi-std" value="false"/>
@@ -142,7 +142,7 @@
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value="MPLAB_DSPIC_PORT"/>
-        <property key="scalar-model" value="small-scalar"/>
+        <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
         <appendMe value="-fno-schedule-insns -fno-schedule-insns2"/>
