@@ -71,27 +71,27 @@
 #pragma config S1ICS = PGD2        //SLAVE ICD Communication Channel Select bits->Communicate on PGC2 and PGD2
 #pragma config S1FNOSC = FRC       //Oscillator Source Selection->Internal Fast RC (FRC)
 
-#define SLAVE_NUMBER    1
-#define SLAVE_IMAGE     dspic33c_client_freertos_demo
+#define SECONDARY_CORE_NUMBER    1
+#define SECONDARY_IMAGE     dspic33c_client_freertos_demo
 
-void SLAVE1_Start();
-void SLAVE1_Program();
+void Secondary_Start();
+void Secondary_Program();
 
 
 int main()
 {
-    //Program and enable slave
-    SLAVE1_Program();
-    SLAVE1_Start();
+    //Program and enable secondary core
+    Secondary_Program();
+    Secondary_Start();
     while(1);
 }
 
-void SLAVE1_Start()
+void Secondary_Start()
 {
-    _start_slave();
+    _start_secondary();
 }
 
-void SLAVE1_Program()               
+void Secondary_Program()               
 {
-    _program_slave(SLAVE_NUMBER, 0, SLAVE_IMAGE);
+    _program_secondary(SECONDARY_CORE_NUMBER, 0, SECONDARY_IMAGE);
 }
