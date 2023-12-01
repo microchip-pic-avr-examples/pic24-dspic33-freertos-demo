@@ -68,13 +68,11 @@
 #include "BlockQ.h"
 #include "crflash.h"
 #include "blocktim.h"
-#include "integer.h"
 #include "comtest2.h"
 #include "partest.h"
 #include "lcd.h"
 #include "timertest.h"
-
-//#pragma config FCKSM = CSECMD  
+#include "main_core.h"
 
 /* Demo task priorities. */
 #define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2 )
@@ -82,7 +80,7 @@
 #define mainCOM_TEST_PRIORITY				( 2 )
 
 /* The check task may require a bit more stack as it calls sprintf(). */
-#define mainCHECK_TAKS_STACK_SIZE			( configMINIMAL_STACK_SIZE * 2 )
+#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE * 2 )
 
 /* The execution period of the check task. */
 #define mainCHECK_TASK_PERIOD				( ( TickType_t ) 3000 / portTICK_PERIOD_MS )
@@ -113,15 +111,29 @@ it is converted to a string. */
 
 /*-----------------------------------------------------------*/
 
+/* Buffer to receive the MSI data sent from the Main core */
+uint16_t msiDataReceive[MSI1_ProtocolA_SIZE];
+
+/* Set to pdTRUE should an error be detected in any of the standard demo tasks. */
+unsigned short usErrorDetected = pdFALSE;
 /*
  * The check task as described at the top of this file.
  */
 static void vCheckTask( void *pvParameters );
 
 /*
+ * The MSI task receives the message sent by the main core through MSI interface .
+ */
+static void vMsiRxTask( void *pvParameters );
+/*
  * Setup the processor ready for the demo.
  */
+
 static void prvSetupHardware( void );
+/*
+ * Function checks whether MSI task is still running
+ */
+BaseType_t xIsMsiTaskStillRunning( void );
 
 /*
  * Setup the Clock.
@@ -143,15 +155,15 @@ int main( void )
 	/* Configure any hardware required for this demo. */
 	prvSetupHardware();
 	/* Create the standard demo tasks. */
-	//vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
-	vStartIntegerMathTasks( tskIDLE_PRIORITY );
 	vStartFlashCoRoutines( mainNUM_FLASH_COROUTINES );
 	vAltStartComTestTasks( mainCOM_TEST_PRIORITY, mainCOM_TEST_BAUD_RATE, mainCOM_TEST_LED );
 	vCreateBlockTimeTasks();
-
+    
+    /* Create a task for reading the messages received from main core through MSI*/
+    xTaskCreate( vMsiRxTask, "MSI",  configMINIMAL_STACK_SIZE*2 , NULL, mainCHECK_TASK_PRIORITY-1, NULL );
 	/* Create the test tasks defined within this file. */
-	xTaskCreate( vCheckTask, "Check", mainCHECK_TAKS_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
-
+	xTaskCreate( vCheckTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
+    
 	/* Start the task that will control the LCD.  This returns the handle
 	to the queue used to write text out to the task. */
 	xLCDQueue = xStartLCDTask();
@@ -170,6 +182,7 @@ static void prvSetupHardware( void )
 {
     prvSetupClock();
 	vParTestInitialise();
+    MAIN_CORE_Initialize();
 }
 
 void prvSetupClock(void)
@@ -205,9 +218,6 @@ left on the LCD without being overwritten.  The second parameter is a pointer
 to the message to display itself. */
 xLCDMessage xMessage = { 0, cStringBuffer };
 
-/* Set to pdTRUE should an error be detected in any of the standard demo tasks. */
-unsigned short usErrorDetected = pdFALSE;
-
 	/* Initialise xLastExecutionTime so the first call to vTaskDelayUntil()
 	works correctly. */
 	xLastExecutionTime = xTaskGetTickCount();
@@ -218,8 +228,7 @@ unsigned short usErrorDetected = pdFALSE;
 		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_TASK_PERIOD );
 
 		/* Has an error been found in any of the standard demo tasks? */
-
-		if( xAreIntegerMathsTaskStillRunning() != pdTRUE )
+        if( xIsMsiTaskStillRunning() != pdTRUE )
 		{
 			usErrorDetected = pdTRUE;
 			sprintf( cStringBuffer, "FAIL #1" );
@@ -247,8 +256,43 @@ unsigned short usErrorDetected = pdFALSE;
 		xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
 	}
 }
-/*-----------------------------------------------------------*/
+static portTASK_FUNCTION( vMsiRxTask, pvParameters )
+{
+    static char cStringBuffer[ mainMAX_STRING_LENGTH ];
+    xLCDMessage xMessage = { 0, cStringBuffer };
+    const TickType_t xDelay50ms = pdMS_TO_TICKS( 50 );
+    for (;;) {
+        //Wait for interrupt from Main core    
+        while (!MAIN_CORE_IsInterruptRequested());
+        MAIN_CORE_InterruptRequestAcknowledge();
+        while (MAIN_CORE_IsInterruptRequested());
+        MAIN_CORE_InterruptRequestAcknowledgeComplete();
 
+        msiDataReceive[0] = 0x00;
+        //Mailbox read 
+        MAIN_CORE_ProtocolRead(MSI1_ProtocolA, (uint16_t*) msiDataReceive);
+        if(usErrorDetected == pdFALSE )
+        {
+           sprintf( cStringBuffer, "DATA S<-M:0x%X", ( short ) msiDataReceive[0] );
+           xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
+        }
+        vTaskDelay(xDelay50ms);
+    }
+}
+/*-----------------------------------------------------------*/
+BaseType_t xIsMsiTaskStillRunning( void )
+{
+    BaseType_t xReturn = pdTRUE;
+
+    /* If the data received is not 0x00 then secondary core is receiving data from Main core */
+    if( msiDataReceive[0] == 0x0 )
+    {
+        xReturn = pdFALSE;
+    }
+    
+    return xReturn;
+}
+/*-----------------------------------------------------------*/
 void vApplicationIdleHook( void )
 {
 	/* Schedule the co-routines from within the idle task hook. */
