@@ -209,7 +209,7 @@ const StackType_t xInitialStack[] =
 	0xabac, /* TBLPAG */
 
 	/* dsPIC specific registers. */
-#if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ ) || defined(__dsPIC33C__ )
+#if defined( __dsPIC30F__ ) || defined( __dsPIC33F__ ) || defined( __dsPIC33E__ )|| defined(__dsPIC33C__ )
 		0x0202, /* ACCAL */
 		0x0303, /* ACCAH */
 		0x0404, /* ACCAU */
