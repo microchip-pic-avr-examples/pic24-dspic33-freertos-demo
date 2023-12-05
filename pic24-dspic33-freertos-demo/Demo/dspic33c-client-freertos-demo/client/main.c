@@ -108,6 +108,12 @@ interrupt test" interrupt. */
 /* Dimension the buffer used to hold the value of the maximum jitter time when
 it is converted to a string. */
 #define mainMAX_STRING_LENGTH				( 20 )
+/*Data send from Host to Client*/
+#define MSI_DATA1 0xAAAA
+#define MSI_DATA2 0xBBBB
+#define MSI_DATA3  0xCCCC
+#define MSI_DATA4  0xDDDD
+#define MSI_DATA5  0xEEEE
 
 /*-----------------------------------------------------------*/
 
@@ -256,6 +262,7 @@ xLCDMessage xMessage = { 0, cStringBuffer };
 		xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
 	}
 }
+/*-----------------------------------------------------------*/
 static portTASK_FUNCTION( vMsiRxTask, pvParameters )
 {
     static char cStringBuffer[ mainMAX_STRING_LENGTH ];
@@ -279,17 +286,17 @@ static portTASK_FUNCTION( vMsiRxTask, pvParameters )
         vTaskDelay(xDelay50ms);
     }
 }
-/*-----------------------------------------------------------*/
-BaseType_t xIsMsiTaskStillRunning( void )
-{
-    BaseType_t xReturn = pdTRUE;
 
-    /* If the data received is not 0x00 then secondary core is receiving data from Main core */
-    if( msiDataReceive[0] == 0x0 )
-    {
-        xReturn = pdFALSE;
+/*-----------------------------------------------------------*/
+BaseType_t xIsMsiTaskStillRunning(void) {
+    BaseType_t xReturn = pdFALSE;
+
+    /* Check data received is the expected ones */
+    if (msiDataReceive[0] == MSI_DATA1 || msiDataReceive[0] == MSI_DATA2 || msiDataReceive[0] == MSI_DATA3
+        || msiDataReceive[0] == MSI_DATA4 || msiDataReceive[0] == MSI_DATA5) {
+        xReturn = pdTRUE;
     }
-    
+
     return xReturn;
 }
 /*-----------------------------------------------------------*/
