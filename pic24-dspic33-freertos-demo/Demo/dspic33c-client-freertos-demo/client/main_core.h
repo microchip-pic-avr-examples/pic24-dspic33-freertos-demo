@@ -1,37 +1,12 @@
-/*
- * FreeRTOS V202212.01
- * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
- * this software and associated documentation files (the "Software"), to deal in
- * the Software without restriction, including without limitation the rights to
- * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
- * the Software, and to permit persons to whom the Software is furnished to do so,
- * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
- * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
- * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
- * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- *
- * https://www.FreeRTOS.org
- * https://github.com/FreeRTOS
- *
- */
-#ifndef HOST_H
-#define HOST_H
+#ifndef MAIN_CORE_H
+#define MAIN_CORE_H
 
 // Section: Included Files
 
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "hostTypes.h"
+#include "main_core_types.h"
 
 /**
  * @ingroup  main_coredriver
@@ -41,42 +16,49 @@
  * @param    none
  * @return   none  
  */
-void vHostInitialize(void);
-
+void MAIN_CORE_Initialize(void);
 
 /**
  * @ingroup  main_coredriver
- * @brief    This routine generates interrupt to HOST.
+ * @brief    Deinitializes MAIN_CORE to POR values.
+ * @param    none
+ * @return   none 
+ */
+void MAIN_CORE_Deinitialize(void);
+
+/**
+ * @ingroup  main_coredriver
+ * @brief    This routine generates interrupt to MAIN_CORE.
  * @param    none
  * @return   none  
  */
-void vHostInterruptRequestGenerate(void);
+void MAIN_CORE_InterruptRequestGenerate(void);
 
 /**
  * @ingroup  main_coredriver
- * @brief    This routine returns the status of interrupt request acknowledge from the  HOST.
+ * @brief    This routine returns the status of interrupt request acknowledge from the  MAIN_CORE.
  * @param    none
- * @return   True  - when HOST has acknowledged Main MSI interrupt request.
- * @return   False - when HOST has not acknowledged Main MSI interrupt request.  
+ * @return   True  - when MAIN_CORE has acknowledged Main MSI interrupt request.
+ * @return   False - when MAIN_CORE has not acknowledged Main MSI interrupt request.  
  */       
-bool HostIsInterruptRequestAcknowledged(void);    
+bool MAIN_CORE_IsInterruptRequestAcknowledged(void);    
 
 /**
  * @ingroup  main_coredriver
- * @brief    This routine clears interrupt to HOST.
+ * @brief    This routine clears interrupt to MAIN_CORE.
  * @param    none
  * @return   none  
  */        
-void vHostInterruptRequestComplete(void);    
+void MAIN_CORE_InterruptRequestComplete(void);    
 
 /**
  * @ingroup  main_coredriver
- * @brief    This routine returns the status of interrupt request from the HOST(main core).
+ * @brief    This routine returns the status of interrupt request from the MAIN_CORE.
  * @param    none
- * @return   True  - when HOST has issued interrupt to Secondary Core.
- * @return   False - when HOST has not issued interrupt to Secondary Core.  
+ * @return   True  - when MAIN_CORE has issued interrupt to Secondary Core.
+ * @return   False - when MAIN_CORE has not issued interrupt to Secondary Core.  
  */     
-bool HostIsInterruptRequested(void);    
+bool MAIN_CORE_IsInterruptRequested(void);    
 
 /**
  * @ingroup  main_coredriver
@@ -84,7 +66,7 @@ bool HostIsInterruptRequested(void);
  * @param    none
  * @return   none  
  */    
-void vHostInterruptRequestAcknowledge(void);    
+void MAIN_CORE_InterruptRequestAcknowledge(void);    
 
 /**
  * @ingroup  main_coredriver
@@ -92,15 +74,15 @@ void vHostInterruptRequestAcknowledge(void);
  * @param    none
  * @return   none  
  */       
-void vHostInterruptRequestAcknowledgeComplete(void);
+void MAIN_CORE_InterruptRequestAcknowledgeComplete(void);
 
 /**
  * @ingroup  main_coredriver
  * @brief    This routine returns Main system status.
  * @param    none
- * @return   HOST_SYSTEM_STATUS: Enum which provides the status of HOST.  
+ * @return   MAIN_CORE_SYSTEM_STATUS: Enum which provides the status of MAIN_CORE.  
  */      
-enum HOST_SYSTEM_STATUS HostSystemStatusGet(void);    
+enum MAIN_CORE_SYSTEM_STATUS MAIN_CORE_SystemStatusGet(void);    
 
 /**
  * @ingroup    main_coredriver
@@ -109,17 +91,17 @@ enum HOST_SYSTEM_STATUS HostSystemStatusGet(void);
  * @param[in]  wordCount   - Number of words to be read.  
  * @return     Number of words read.  
  */
-uint16_t HostFIFORead(uint16_t *pData, uint16_t wordCount);    
+uint16_t MAIN_CORE_FIFORead(uint16_t *pData, uint16_t wordCount);    
 
 /**
  * @ingroup    main_coredriver
  * @brief      This routine transfers FIFO data to Main Core.
- * @pre        HostInitialize() should be called before calling this routine.
+ * @pre        MAIN_CORE_Initialize() should be called before calling this routine.
  * @param[in]  *pData      - Pointer to an array which has data for transmission.
  * @param[in]  wordCount   - Number of words to be transfer.  
  * @return     Number of words transferred.  
  */
-uint16_t HostFIFOWrite(uint16_t *pData, uint16_t wordCount);
+uint16_t MAIN_CORE_FIFOWrite(uint16_t *pData, uint16_t wordCount);
 
 /** 
  * @ingroup  main_coredriver
@@ -128,7 +110,7 @@ uint16_t HostFIFOWrite(uint16_t *pData, uint16_t wordCount);
  * @return   true   -    Read FIFO is full
  * @return   false  -    Read FIFO is not full
  */ 
-inline static bool HostFIFOReadIsFull(void)
+inline static bool MAIN_CORE_FIFOReadIsFull(void)
 {
     return(SI1FIFOCSbits.SRFFULL);
 }
@@ -141,7 +123,7 @@ inline static bool HostFIFOReadIsFull(void)
  * @return   true   -    Read FIFO is Empty
  * @return   false  -    Read FIFO is not Empty (Read FIFO contains valid data not yet read by the Main core)
  */
-inline static bool HostFIFOReadIsEmpty(void)
+inline static bool MAIN_CORE_FIFOReadIsEmpty(void)
 {
     return(SI1FIFOCSbits.SRFEMPTY);
 }
@@ -154,7 +136,7 @@ inline static bool HostFIFOReadIsEmpty(void)
  * @return   true   -    Write FIFO is full
  * @return   false  -    Write FIFO is not full
  */ 
-inline static bool HostFIFOWriteIsFull(void)
+inline static bool MAIN_CORE_FIFOWriteIsFull(void)
 {
     return(SI1FIFOCSbits.SWFFULL);
 }
@@ -167,7 +149,7 @@ inline static bool HostFIFOWriteIsFull(void)
  * @return   true   -    Write FIFO is Empty
  * @return   false  -    Write FIFO is not Empty (Write FIFO contains valid data not yet read by the Secondary core)
  */ 
-inline static bool HostFIFOWriteIsEmpty(void)
+inline static bool MAIN_CORE_FIFOWriteIsEmpty(void)
 {
     return(SI1FIFOCSbits.SWFEMPTY);
 }
@@ -180,7 +162,7 @@ inline static bool HostFIFOWriteIsEmpty(void)
  * @return     true   -    successful write
  * @return     false  -    unsuccessful write  
  */      
-bool HostProtocolWrite(enum HOST_PROTOCOLS protocolName, uint16_t *pData);
+bool MAIN_CORE_ProtocolWrite(enum MAIN_CORE_PROTOCOLS protocolName, uint16_t *pData);
 
 /** 
  * @ingroup    main_coredriver
@@ -190,7 +172,7 @@ bool HostProtocolWrite(enum HOST_PROTOCOLS protocolName, uint16_t *pData);
  * @return     true   -    successful read
  * @return     false  -    unsuccessful read  
  */   
-bool HostProtocolRead(enum HOST_PROTOCOLS protocolName, uint16_t *pData);
+bool MAIN_CORE_ProtocolRead(enum MAIN_CORE_PROTOCOLS protocolName, uint16_t *pData);
 
 /** 
  * @ingroup    main_coredriver
@@ -201,7 +183,7 @@ bool HostProtocolRead(enum HOST_PROTOCOLS protocolName, uint16_t *pData);
  * @return     true   -    Protocol is full
  * @return     false  -    Protocol is empty 
  */ 
-inline static bool HostProtocolIsFull(enum HOST_PROTOCOLS protocolName)
+inline static bool MAIN_CORE_ProtocolIsFull(enum MAIN_CORE_PROTOCOLS protocolName)
 {
     bool status = false;
     switch(protocolName)
@@ -228,7 +210,7 @@ inline static bool HostProtocolIsFull(enum HOST_PROTOCOLS protocolName)
  * @return     true   -    Protocol is empty
  * @return     false  -    Protocol is full
  */ 
-inline static bool HostProtocolIsEmpty(enum HOST_PROTOCOLS protocolName)
+inline static bool MAIN_CORE_ProtocolIsEmpty(enum MAIN_CORE_PROTOCOLS protocolName)
 {
     bool status = false;
     switch(protocolName)
@@ -247,7 +229,7 @@ inline static bool HostProtocolIsEmpty(enum HOST_PROTOCOLS protocolName)
 
 
 
-#endif //HOST_H
+#endif //MAIN_CORE_H
 
 
 

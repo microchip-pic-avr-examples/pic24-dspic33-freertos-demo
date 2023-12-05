@@ -72,7 +72,7 @@
 #include "partest.h"
 #include "lcd.h"
 #include "timertest.h"
-#include "host.h"
+#include "main_core.h"
 
 /* Demo task priorities. */
 #define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2 )
@@ -188,7 +188,7 @@ static void prvSetupHardware( void )
 {
     prvSetupClock();
 	vParTestInitialise();
-    vHostInitialize();
+    MAIN_CORE_Initialize();
 }
 
 void prvSetupClock(void)
@@ -240,11 +240,11 @@ xLCDMessage xMessage = { 0, cStringBuffer };
 			sprintf( cStringBuffer, "FAIL #1" );
 		}
 
-//		if( xAreComTestTasksStillRunning() != pdTRUE )
-//		{
-//			usErrorDetected = pdTRUE;
-//			sprintf( cStringBuffer, "FAIL #2" );
-//		}
+		if( xAreComTestTasksStillRunning() != pdTRUE )
+		{
+			usErrorDetected = pdTRUE;
+			sprintf( cStringBuffer, "FAIL #2" );
+		}
 
 		if( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
 		{
@@ -270,14 +270,14 @@ static portTASK_FUNCTION( vMsiRxTask, pvParameters )
     const TickType_t xDelay50ms = pdMS_TO_TICKS( 50 );
     for (;;) {
         //Wait for interrupt from Main core    
-        while (!HostIsInterruptRequested());
-        vHostInterruptRequestAcknowledge();
-        while (HostIsInterruptRequested());
-        vHostInterruptRequestAcknowledgeComplete();
+        while (!MAIN_CORE_IsInterruptRequested());
+        MAIN_CORE_InterruptRequestAcknowledge();
+        while (MAIN_CORE_IsInterruptRequested());
+        MAIN_CORE_InterruptRequestAcknowledgeComplete();
 
         msiDataReceive[0] = 0x00;
         //Mailbox read 
-        HostProtocolRead(MSI1_ProtocolA, (uint16_t*) msiDataReceive);
+        MAIN_CORE_ProtocolRead(MSI1_ProtocolA, (uint16_t*) msiDataReceive);
         if(usErrorDetected == pdFALSE )
         {
            sprintf( cStringBuffer, "DATA S<-M:0x%X", ( short ) msiDataReceive[0] );

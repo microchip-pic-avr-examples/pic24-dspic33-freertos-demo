@@ -26,8 +26,8 @@
 
 #include <stddef.h>
 #include <libpic30.h>
-#include "secCoreTypes.h"
-#include "secCore1.h"
+#include "sec_core_types.h"
+#include "sec_core1.h"
 #include "dspic33c_client_freertos_demo.h"
 
 #define SECONDARY_IMAGE     dspic33c_client_freertos_demo
@@ -41,7 +41,7 @@
 #define _MTSIRQ _MSTIRQ
 #endif
 
-void SecCore1Initialize(void)
+void SEC_CORE1_Initialize(void)
 {
     //SRSTIE disabled; STMIACK disabled; MSTIRQ disabled; RFITSEL Trigger data valid interrupt when 1st FIFO entry is written by Slave; SLVEN disabled; 
     MSI1CON = 0x0U;    
@@ -51,54 +51,54 @@ void SecCore1Initialize(void)
     
 }
 
-void SecCore1Deinitialize(void)
+void SEC_CORE1_Deinitialize(void)
 {
     MSI1CON = 0x0U;    
     MSI1FIFOCS = 0x0U;    
 
 }
 
-void SecCore1Start(void)
+void SEC_CORE1_Start(void)
 {
     _start_secondary();
 }
 
-void SecCore1Program(void)               
+void SEC_CORE1_Program(void)               
 {
     _program_secondary(SECONDARY_NUMBER,0,SECONDARY_IMAGE);
 }
 
-void SecCore1InterruptRequestGenerate(void)
+void SEC_CORE1_InterruptRequestGenerate(void)
 {
     MSI1CONbits.MTSIRQ = 1U;
 }
 
-bool SecCore1IsInterruptRequestAcknowledged(void)
+bool SEC_CORE1_IsInterruptRequestAcknowledged(void)
 {
     return(MSI1STATbits.MTSIACK);
     
 }
 
-void SecCore1InterruptRequestComplete(void)
+void SEC_CORE1_InterruptRequestComplete(void)
 {
     MSI1CONbits.MTSIRQ = 0U;
 }
  
-bool SecCore1IsInterruptRequested(void)
+bool SEC_CORE1_IsInterruptRequested(void)
 {
     return(MSI1STATbits.STMIRQ);
 }
-void SecCore1InterruptRequestAcknowledge(void)
+void SEC_CORE1_InterruptRequestAcknowledge(void)
 {
     MSI1CONbits.STMIACK = 1U;
 }
 
-void SecCore1InterruptRequestAcknowledgeComplete(void)
+void SEC_CORE1_InterruptRequestAcknowledgeComplete(void)
 {
     MSI1CONbits.STMIACK = 0U;
 }
 
-enum SEC_CORE_RESET_CAUSE SecCore1GetResetCause(void)
+enum SEC_CORE_RESET_CAUSE SEC_CORE1_GetResetCause(void)
 {
     enum SEC_CORE_RESET_CAUSE resetCause;
     
@@ -114,7 +114,7 @@ enum SEC_CORE_RESET_CAUSE SecCore1GetResetCause(void)
     return resetCause;
 }
 
-void SecCore1ResetCauseClear(enum SEC_CORE_RESET_CAUSE resetCause)
+void SEC_CORE1_ResetCauseClear(enum SEC_CORE_RESET_CAUSE resetCause)
 {
     switch(resetCause)
     {
@@ -125,7 +125,7 @@ void SecCore1ResetCauseClear(enum SEC_CORE_RESET_CAUSE resetCause)
     }
 }
  
-enum SEC_CORE_SYSTEM_STATUS SecCore1SystemStatusGet(void)
+enum SEC_CORE_SYSTEM_STATUS SEC_CORE1_SystemStatusGet(void)
 {
     enum SEC_CORE_SYSTEM_STATUS systemStatus = SEC_CORE_SYSTEM_STATUS_RUNNING_STATE;
     
@@ -150,13 +150,13 @@ enum SEC_CORE_SYSTEM_STATUS SecCore1SystemStatusGet(void)
     return systemStatus;
 }
 
-uint16_t SecCore1FIFORead(uint16_t *pData, uint16_t wordCount)
+uint16_t SEC_CORE1_FIFORead(uint16_t *pData, uint16_t wordCount)
 {
     uint16_t readCountStatus = 0U;
     
     while(wordCount)
     {
-        if(!SecCore1FIFOReadIsEmpty())
+        if(!SEC_CORE1_FIFOReadIsEmpty())
         {
             *pData++ = MRSWFDATA;
             wordCount--;
@@ -170,13 +170,13 @@ uint16_t SecCore1FIFORead(uint16_t *pData, uint16_t wordCount)
     return readCountStatus;  
 }
 
-uint16_t SecCore1FIFOWrite(uint16_t *pData, uint16_t wordCount)
+uint16_t SEC_CORE1_FIFOWrite(uint16_t *pData, uint16_t wordCount)
 {
     uint16_t writeCountStatus = 0U;
     
     while(wordCount)
     {
-        if(!SecCore1FIFOWriteIsFull())
+        if(!SEC_CORE1_FIFOWriteIsFull())
         {
             MWSRFDATA = *pData++;
             wordCount--;
@@ -190,13 +190,13 @@ uint16_t SecCore1FIFOWrite(uint16_t *pData, uint16_t wordCount)
     return writeCountStatus;
 }
  
-bool SecCore1ProtocolWrite(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData)
+bool SEC_CORE1_ProtocolWrite(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData)
 {
     bool status = false;
     switch(protocolName)
     {
         case MSI1_ProtocolA:
-            if(SecCore1ProtocolIsEmpty(MSI1_ProtocolA))
+            if(SEC_CORE1_ProtocolIsEmpty(MSI1_ProtocolA))
             {
                 MSI1MBX0D = pData[0];
                 status = true;
@@ -212,13 +212,13 @@ bool SecCore1ProtocolWrite(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData
     return status;    
 }
 
-bool SecCore1ProtocolRead(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData)
+bool SEC_CORE1_ProtocolRead(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData)
 {
     bool status = false;   
     switch(protocolName)
     {
         case MSI1_ProtocolB:
-            if(SecCore1ProtocolIsFull(MSI1_ProtocolB))
+            if(SEC_CORE1_ProtocolIsFull(MSI1_ProtocolB))
             {
                 pData[0] = MSI1MBX1D;
 
