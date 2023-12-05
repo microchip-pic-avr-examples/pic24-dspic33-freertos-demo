@@ -9,8 +9,8 @@
       <itemPath>../../../../Source/include/queue.h</itemPath>
       <itemPath>../../../../Source/include/semphr.h</itemPath>
       <itemPath>../../../../Source/include/task.h</itemPath>
-      <itemPath>../main_core.h</itemPath>
-      <itemPath>../main_core_types.h</itemPath>
+      <itemPath>../hostTypes.h</itemPath>
+      <itemPath>../host.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -42,7 +42,7 @@
       <itemPath>../ParTest/ParTest.c</itemPath>
       <itemPath>../serial/serial.c</itemPath>
       <itemPath>../lcd.c</itemPath>
-      <itemPath>../main_core.c</itemPath>
+      <itemPath>../host.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

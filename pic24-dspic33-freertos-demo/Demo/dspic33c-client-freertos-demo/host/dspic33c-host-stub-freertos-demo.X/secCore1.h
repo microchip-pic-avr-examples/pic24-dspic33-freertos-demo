@@ -31,7 +31,7 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include "sec_core_types.h"
+#include "secCoreTypes.h"
 
 // Section: Data Type Definitions
 
@@ -84,129 +84,129 @@ extern const struct SEC_CORE_INTERFACE MSIInterface;
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_InterruptRequestComplete API
+ * @brief    This macro defines the Custom Name for \ref SecCore1InterruptRequestComplete API
  */
-#define MSIInterface_InterruptRequestComplete SEC_CORE1_InterruptRequestComplete
+#define MSIInterface_InterruptRequestComplete SecCore1InterruptRequestComplete
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_IsInterruptRequested API
+ * @brief    This macro defines the Custom Name for \ref SecCore1IsInterruptRequested API
  */
-#define MSIInterface_IsInterruptRequested SEC_CORE1_IsInterruptRequested
+#define MSIInterface_IsInterruptRequested SecCore1IsInterruptRequested
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_InterruptRequestAcknowledge API
+ * @brief    This macro defines the Custom Name for \ref SecCore1InterruptRequestAcknowledge API
  */
-#define MSIInterface_InterruptRequestAcknowledge SEC_CORE1_InterruptRequestAcknowledge
+#define MSIInterface_InterruptRequestAcknowledge SecCore1InterruptRequestAcknowledge
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_InterruptRequestAcknowledgeComplete API
+ * @brief    This macro defines the Custom Name for \ref SecCore1InterruptRequestAcknowledgeComplete API
  */
-#define MSIInterface_InterruptRequestAcknowledgeComplete SEC_CORE1_InterruptRequestAcknowledgeComplete
+#define MSIInterface_InterruptRequestAcknowledgeComplete SecCore1InterruptRequestAcknowledgeComplete
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_GetResetCause API
+ * @brief    This macro defines the Custom Name for \ref SecCore1GetResetCause API
  */
-#define MSIInterface_GetResetCause SEC_CORE1_GetResetCause
+#define MSIInterface_GetResetCause SecCore1GetResetCause
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_ResetCauseClear API
+ * @brief    This macro defines the Custom Name for \ref SecCore1ResetCauseClear API
  */
-#define MSIInterface_ResetCauseClear SEC_CORE1_ResetCauseClear
+#define MSIInterface_ResetCauseClear SecCore1ResetCauseClear
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_SystemStatusGet API
+ * @brief    This macro defines the Custom Name for \ref SecCore1SystemStatusGet API
  */
-#define MSIInterface_SystemStatusGet SEC_CORE1_SystemStatusGet
+#define MSIInterface_SystemStatusGet SecCore1SystemStatusGet
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_WriteFIFOEnable API
+ * @brief    This macro defines the Custom Name for \ref SecCore1WriteFIFOEnable API
  */
-#define MSIInterface_WriteFIFOEnable SEC_CORE1_WriteFIFOEnable
+#define MSIInterface_WriteFIFOEnable SecCore1WriteFIFOEnable
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_WriteFIFODisable API
+ * @brief    This macro defines the Custom Name for \ref SecCore1WriteFIFODisable API
  */
-#define MSIInterface_WriteFIFODisable SEC_CORE1_WriteFIFODisable
+#define MSIInterface_WriteFIFODisable SecCore1WriteFIFODisable
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_ReadFIFOEnable API
+ * @brief    This macro defines the Custom Name for \ref SecCore1ReadFIFOEnable API
  */
-#define MSIInterface_ReadFIFOEnable SEC_CORE1_ReadFIFOEnable
+#define MSIInterface_ReadFIFOEnable SecCore1ReadFIFOEnable
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_ReadFIFODisable API
+ * @brief    This macro defines the Custom Name for \ref SecCore1ReadFIFODisable API
  */
-#define MSIInterface_ReadFIFODisable SEC_CORE1_ReadFIFODisable
+#define MSIInterface_ReadFIFODisable SecCore1ReadFIFODisable
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_FIFORead API
+ * @brief    This macro defines the Custom Name for \ref SecCore1FIFORead API
  */
-#define MSIInterface_FIFORead SEC_CORE1_FIFORead
+#define MSIInterface_FIFORead SecCore1FIFORead
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_FIFOWrite API
+ * @brief    This macro defines the Custom Name for \ref SecCore1FIFOWrite API
  */
-#define MSIInterface_FIFOWrite SEC_CORE1_FIFOWrite
+#define MSIInterface_FIFOWrite SecCore1FIFOWrite
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_FIFOReadIsFull API
+ * @brief    This macro defines the Custom Name for \ref SecCore1FIFOReadIsFull API
  */
-#define MSIInterface_FIFOReadIsFull SEC_CORE1_FIFOReadIsFull
+#define MSIInterface_FIFOReadIsFull SecCore1FIFOReadIsFull
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_FIFOReadIsEmpty API
+ * @brief    This macro defines the Custom Name for \ref SecCore1FIFOReadIsEmpty API
  */
-#define MSIInterface_FIFOReadIsEmpty SEC_CORE1_FIFOReadIsEmpty
+#define MSIInterface_FIFOReadIsEmpty SecCore1FIFOReadIsEmpty
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_FIFOWriteIsFull API
+ * @brief    This macro defines the Custom Name for \ref SecCore1FIFOWriteIsFull API
  */
-#define MSIInterface_FIFOWriteIsFull SEC_CORE1_FIFOWriteIsFull
+#define MSIInterface_FIFOWriteIsFull SecCore1FIFOWriteIsFull
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_FIFOWriteIsEmpty API
+ * @brief    This macro defines the Custom Name for \ref SecCore1FIFOWriteIsEmpty API
  */
-#define MSIInterface_FIFOWriteIsEmpty SEC_CORE1_FIFOWriteIsEmpty
+#define MSIInterface_FIFOWriteIsEmpty SecCore1FIFOWriteIsEmpty
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_ProtocolWrite API
+ * @brief    This macro defines the Custom Name for \ref SecCore1ProtocolWrite API
  */
-#define MSIInterface_ProtocolWrite SEC_CORE1_ProtocolWrite
+#define MSIInterface_ProtocolWrite SecCore1ProtocolWrite
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_ProtocolRead API
+ * @brief    This macro defines the Custom Name for \ref SecCore1ProtocolRead API
  */
-#define MSIInterface_ProtocolRead SEC_CORE1_ProtocolRead
+#define MSIInterface_ProtocolRead SecCore1ProtocolRead
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_ProtocolIsFull API
+ * @brief    This macro defines the Custom Name for \ref SecCore1ProtocolIsFull API
  */
-#define MSIInterface_ProtocolIsFull SEC_CORE1_ProtocolIsFull
+#define MSIInterface_ProtocolIsFull SecCore1ProtocolIsFull
 
 /**
  * @ingroup  sec_coredriver
- * @brief    This macro defines the Custom Name for \ref SEC_CORE1_ProtocolIsEmpty API
+ * @brief    This macro defines the Custom Name for \ref SecCore1ProtocolIsEmpty API
  */
-#define MSIInterface_ProtocolIsEmpty SEC_CORE1_ProtocolIsEmpty
+#define MSIInterface_ProtocolIsEmpty SecCore1ProtocolIsEmpty
 
 
 // Section: SEC_CORE1 Module APIs
@@ -219,7 +219,7 @@ extern const struct SEC_CORE_INTERFACE MSIInterface;
  * @param    none
  * @return   none  
  */
-void SEC_CORE1_Initialize(void);
+void SecCore1Initialize(void);
 
 /**
  * @ingroup  sec_coredriver
@@ -227,7 +227,7 @@ void SEC_CORE1_Initialize(void);
  * @param    none
  * @return   none 
  */
-void SEC_CORE1_Deinitialize(void);
+void SecCore1Deinitialize(void);
 
 /**
  * @ingroup  sec_coredriver
@@ -235,7 +235,7 @@ void SEC_CORE1_Deinitialize(void);
  * @param    none
  * @return   none  
  */        
-void SEC_CORE1_Start(void);
+void SecCore1Start(void);
 
 /**
  * @ingroup  sec_coredriver
@@ -243,7 +243,7 @@ void SEC_CORE1_Start(void);
  * @param    none
  * @return   none  
  */
-void SEC_CORE1_Program(void);
+void SecCore1Program(void);
 
 /**
  * @ingroup  sec_coredriver
@@ -251,7 +251,7 @@ void SEC_CORE1_Program(void);
  * @param    none
  * @return   none  
  */
-void SEC_CORE1_InterruptRequestGenerate(void);
+void SecCore1InterruptRequestGenerate(void);
 
 /**
  * @ingroup  sec_coredriver
@@ -260,7 +260,7 @@ void SEC_CORE1_InterruptRequestGenerate(void);
  * @return   True  - when SEC_CORE1 has acknowledged Main MSI interrupt request.
  * @return   False - when SEC_CORE1 has not acknowledged Main MSI interrupt request.  
  */       
-bool SEC_CORE1_IsInterruptRequestAcknowledged(void);    
+bool SecCore1IsInterruptRequestAcknowledged(void);    
 
 /**
  * @ingroup  sec_coredriver
@@ -268,7 +268,7 @@ bool SEC_CORE1_IsInterruptRequestAcknowledged(void);
  * @param    none
  * @return   none  
  */       
-void SEC_CORE1_InterruptRequestComplete(void);    
+void SecCore1InterruptRequestComplete(void);    
 
 /**
  * @ingroup  sec_coredriver
@@ -277,7 +277,7 @@ void SEC_CORE1_InterruptRequestComplete(void);
  * @return   True  - when SEC_CORE1 has issued interrupt to Main Core.
  * @return   False - when SEC_CORE1 has not issued interrupt to Main Core.  
  */     
-bool SEC_CORE1_IsInterruptRequested(void);    
+bool SecCore1IsInterruptRequested(void);    
 
 /**
  * @ingroup  sec_coredriver
@@ -285,7 +285,7 @@ bool SEC_CORE1_IsInterruptRequested(void);
  * @param    none
  * @return   none  
  */       
-void SEC_CORE1_InterruptRequestAcknowledge(void);    
+void SecCore1InterruptRequestAcknowledge(void);    
 
 /**
  * @ingroup  sec_coredriver
@@ -293,7 +293,7 @@ void SEC_CORE1_InterruptRequestAcknowledge(void);
  * @param    none
  * @return   none  
  */       
-void SEC_CORE1_InterruptRequestAcknowledgeComplete(void);
+void SecCore1InterruptRequestAcknowledgeComplete(void);
 
 /**
  * @ingroup  sec_coredriver
@@ -301,7 +301,7 @@ void SEC_CORE1_InterruptRequestAcknowledgeComplete(void);
  * @param    none
  * @return   SECONDARY_RESET_CAUSE: Enum which provides the cause for SEC_CORE1 reset.  
  */
-enum SEC_CORE_RESET_CAUSE SEC_CORE1_GetResetCause(void);    
+enum SEC_CORE_RESET_CAUSE SecCore1GetResetCause(void);    
 
 /**
  * @ingroup  sec_coredriver
@@ -310,7 +310,7 @@ enum SEC_CORE_RESET_CAUSE SEC_CORE1_GetResetCause(void);
  * @param    resetCause - reset to be cleared
  * @return   none  
  */     
-void SEC_CORE1_ResetCauseClear(enum SEC_CORE_RESET_CAUSE resetCause);    
+void SecCore1ResetCauseClear(enum SEC_CORE_RESET_CAUSE resetCause);    
 
 /**
  * @ingroup  sec_coredriver
@@ -318,27 +318,27 @@ void SEC_CORE1_ResetCauseClear(enum SEC_CORE_RESET_CAUSE resetCause);
  * @param    none
  * @return   SEC_CORE_SYSTEM_STATUS: Enum which provides the status of SEC_CORE1.  
  */       
-enum SEC_CORE_SYSTEM_STATUS SEC_CORE1_SystemStatusGet(void);    
+enum SEC_CORE_SYSTEM_STATUS SecCore1SystemStatusGet(void);    
 
 /**
  * @ingroup    sec_coredriver
  * @brief      This routine reads FIFO data sent from the SEC_CORE1.
- * @pre        SEC_CORE1_ReadFIFOEnable should be called before calling this routine.
+ * @pre        SecCore1ReadFIFOEnable should be called before calling this routine.
  * @param[in]  *pData      - Pointer to an array to store the read data
  * @param[in]  wordCount   - Number of words to be read.     
  * @return     Number of words read.  
  */     
-uint16_t SEC_CORE1_FIFORead(uint16_t *pData, uint16_t wordCount);    
+uint16_t SecCore1FIFORead(uint16_t *pData, uint16_t wordCount);    
 
 /**
  * @ingroup    sec_coredriver
  * @brief      This routine transfers FIFO data to SEC_CORE1.
- * @pre        SEC_CORE1_WriteFIFOEnable() should be called before calling this routine.
+ * @pre        SecCore1WriteFIFOEnable() should be called before calling this routine.
  * @param[in]  *pData      - Pointer to an array which has data for transmission.
  * @param[in]  wordCount   - Number of words to be transfer.  
  * @return     Number of words transferred.  
  */       
-uint16_t SEC_CORE1_FIFOWrite(uint16_t *pData, uint16_t wordCount);
+uint16_t SecCore1FIFOWrite(uint16_t *pData, uint16_t wordCount);
 
 /** 
  * @ingroup  sec_coredriver
@@ -346,7 +346,7 @@ uint16_t SEC_CORE1_FIFOWrite(uint16_t *pData, uint16_t wordCount);
  * @param    none
  * @return   none
  */ 
-inline static void SEC_CORE1_WriteFIFOEnable(void)
+inline static void SecCore1WriteFIFOEnable(void)
 {
     MSI1FIFOCSbits.WFEN = 1U;
 }
@@ -357,7 +357,7 @@ inline static void SEC_CORE1_WriteFIFOEnable(void)
  * @param    none
  * @return   none
  */ 
-inline static void SEC_CORE1_WriteFIFODisable(void)
+inline static void SecCore1WriteFIFODisable(void)
 {
     MSI1FIFOCSbits.WFEN = 0U;
 }
@@ -368,7 +368,7 @@ inline static void SEC_CORE1_WriteFIFODisable(void)
  * @param    none
  * @return   none
  */ 
-inline static void SEC_CORE1_ReadFIFOEnable(void)
+inline static void SecCore1ReadFIFOEnable(void)
 {
     MSI1FIFOCSbits.RFEN = 1U;
 }
@@ -379,7 +379,7 @@ inline static void SEC_CORE1_ReadFIFOEnable(void)
  * @param    none
  * @return   none
  */ 
-inline static void SEC_CORE1_ReadFIFODisable(void)
+inline static void SecCore1ReadFIFODisable(void)
 {
     MSI1FIFOCSbits.RFEN = 0U;
 }
@@ -391,7 +391,7 @@ inline static void SEC_CORE1_ReadFIFODisable(void)
  * @return   true   -    Read FIFO is full
  * @return   false  -    Read FIFO is not full
  */ 
-inline static bool SEC_CORE1_FIFOReadIsFull(void)
+inline static bool SecCore1FIFOReadIsFull(void)
 {
     return(MSI1FIFOCSbits.RFFULL);
 }
@@ -404,7 +404,7 @@ inline static bool SEC_CORE1_FIFOReadIsFull(void)
  * @return   true   -    Read FIFO is Empty
  * @return   false  -    Read FIFO is not Empty (Read FIFO contains valid data not yet read by the Main core)
  */
-inline static bool SEC_CORE1_FIFOReadIsEmpty(void)
+inline static bool SecCore1FIFOReadIsEmpty(void)
 {
     return(MSI1FIFOCSbits.RFEMPTY);
 }
@@ -417,7 +417,7 @@ inline static bool SEC_CORE1_FIFOReadIsEmpty(void)
  * @return   true   -    Write FIFO is full
  * @return   false  -    Write FIFO is not full
  */ 
-inline static bool SEC_CORE1_FIFOWriteIsFull(void)
+inline static bool SecCore1FIFOWriteIsFull(void)
 {
     return(MSI1FIFOCSbits.WFFULL);
 }
@@ -430,7 +430,7 @@ inline static bool SEC_CORE1_FIFOWriteIsFull(void)
  * @return   true   -    Write FIFO is Empty
  * @return   false  -    Write FIFO is not Empty (Write FIFO contains valid data not yet read by the Secondary core)
  */ 
-inline static bool SEC_CORE1_FIFOWriteIsEmpty(void)
+inline static bool SecCore1FIFOWriteIsEmpty(void)
 {
     return(MSI1FIFOCSbits.WFEMPTY);
 }
@@ -443,7 +443,7 @@ inline static bool SEC_CORE1_FIFOWriteIsEmpty(void)
  * @return     true   -    successful write
  * @return     false  -    unsuccessful write  
  */      
-bool SEC_CORE1_ProtocolWrite(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData);
+bool SecCore1ProtocolWrite(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData);
 
 /** 
  * @ingroup    sec_coredriver
@@ -453,7 +453,7 @@ bool SEC_CORE1_ProtocolWrite(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pDa
  * @return     true   -    successful read
  * @return     false  -    unsuccessful read  
  */   
-bool SEC_CORE1_ProtocolRead(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData);
+bool SecCore1ProtocolRead(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pData);
 
 /** 
  * @ingroup    sec_coredriver
@@ -464,7 +464,7 @@ bool SEC_CORE1_ProtocolRead(enum SEC_CORE_PROTOCOLS protocolName, uint16_t *pDat
  * @return     true   -    Mailbox is full
  * @return     false  -    Mailbox is empty 
  */ 
-inline static bool SEC_CORE1_ProtocolIsFull(enum SEC_CORE_PROTOCOLS protocolName)
+inline static bool SecCore1ProtocolIsFull(enum SEC_CORE_PROTOCOLS protocolName)
 {
     bool status = false;
     switch(protocolName)
@@ -491,7 +491,7 @@ inline static bool SEC_CORE1_ProtocolIsFull(enum SEC_CORE_PROTOCOLS protocolName
  * @return     true   -    Mailbox is empty
  * @return     false  -    Mailbox is full
  */ 
-inline static bool SEC_CORE1_ProtocolIsEmpty(enum SEC_CORE_PROTOCOLS protocolName)
+inline static bool SecCore1ProtocolIsEmpty(enum SEC_CORE_PROTOCOLS protocolName)
 {
     bool status = false;
     switch(protocolName)

@@ -1,7 +1,7 @@
 #include <xc.h>
 #include <libpic30.h>
 #include <string.h>
-#include "sec_core1.h"
+#include "secCore1.h"
 
 #pragma config FNOSC = FRC    //Master Oscillator Source Selection->Internal Fast RC (FRC)
 #pragma config ICS = PGD2     //Master ICD Communication Channel Select bits->Communicate on PGC3 and PGD3
@@ -150,21 +150,21 @@ int main() {
     
     uint16_t messageIndex = 0;
     uint16_t message[MESSAGE_COUNT] = {0xAAAA, 0xBBBB, 0xCCCC, 0xDDDD, 0xEEEE};
-    SEC_CORE1_Initialize();
+    SecCore1Initialize();
     
     //Program and enable secondary core
-    SEC_CORE1_Program();
-    SEC_CORE1_Start();
+    SecCore1Program();
+    SecCore1Start();
 
     while (1) {
         
         dataSend[0] = message[messageIndex%MESSAGE_COUNT];
         
-        SEC_CORE1_ProtocolWrite(MSI1_ProtocolA, (uint16_t*) dataSend);
-        SEC_CORE1_InterruptRequestGenerate();
-        while (!SEC_CORE1_IsInterruptRequestAcknowledged());
-        SEC_CORE1_InterruptRequestComplete();
-        while (SEC_CORE1_IsInterruptRequestAcknowledged());
+        SecCore1ProtocolWrite(MSI1_ProtocolA, (uint16_t*) dataSend);
+        SecCore1InterruptRequestGenerate();
+        while (!SecCore1IsInterruptRequestAcknowledged());
+        SecCore1InterruptRequestComplete();
+        while (SecCore1IsInterruptRequestAcknowledged());
         
         messageIndex++;
     }
