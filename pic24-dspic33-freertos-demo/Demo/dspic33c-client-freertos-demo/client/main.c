@@ -111,9 +111,9 @@ it is converted to a string. */
 /*Data send from Host to Client*/
 #define MSI_DATA1 0xAAAA
 #define MSI_DATA2 0xBBBB
-#define MSI_DATA3  0xCCCC
-#define MSI_DATA4  0xDDDD
-#define MSI_DATA5  0xEEEE
+#define MSI_DATA3 0xCCCC
+#define MSI_DATA4 0xDDDD
+#define MSI_DATA5 0xEEEE
 
 /*-----------------------------------------------------------*/
 
