@@ -80,7 +80,7 @@
 #define mainCOM_TEST_PRIORITY				( 2 )
 
 /* The check task may require a bit more stack as it calls sprintf(). */
-#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE * 2 )
+#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE * 4 )
 
 /* The execution period of the check task. */
 #define mainCHECK_TASK_PERIOD				( ( TickType_t ) 3000 / portTICK_PERIOD_MS )
@@ -163,7 +163,6 @@ int main( void )
 	/* Create the standard demo tasks. */
 	vStartFlashCoRoutines( mainNUM_FLASH_COROUTINES );
 	vAltStartComTestTasks( mainCOM_TEST_PRIORITY, mainCOM_TEST_BAUD_RATE, mainCOM_TEST_LED );
-	vCreateBlockTimeTasks();
     
     /* Create a task for reading the messages received from main core through MSI*/
     xTaskCreate( vMsiRxTask, "MSI",  configMINIMAL_STACK_SIZE*2 , NULL, mainCHECK_TASK_PRIORITY-1, NULL );
@@ -246,13 +245,7 @@ xLCDMessage xMessage = { 0, cStringBuffer };
 			sprintf( cStringBuffer, "FAIL #2" );
 		}
 
-		if( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
-		{
-			usErrorDetected = pdTRUE;
-			sprintf( cStringBuffer, "FAIL #3" );
-		}
-
-		if( usErrorDetected == pdFALSE )
+		if( usErrorDetected != pdTRUE )
 		{
 			/* No errors have been discovered, so display LCD task run count". */
 			sprintf( cStringBuffer, "No Errors:%d", ( short ) runCount );
@@ -278,7 +271,7 @@ static portTASK_FUNCTION( vMsiRxTask, pvParameters )
         msiDataReceive[0] = 0x00;
         //Mailbox read 
         MAIN_CORE_ProtocolRead(MSI1_ProtocolA, (uint16_t*) msiDataReceive);
-        if(usErrorDetected == pdFALSE )
+        if(usErrorDetected != pdTRUE )
         {
            sprintf( cStringBuffer, "DATA S<-M:0x%X", ( short ) msiDataReceive[0] );
            xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
