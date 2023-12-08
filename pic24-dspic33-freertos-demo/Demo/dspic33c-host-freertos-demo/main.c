@@ -84,7 +84,7 @@
 #define mainCOM_TEST_PRIORITY				( 2 )
 
 /* The check task may require a bit more stack as it calls sprintf(). */
-#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE * 2 )
+#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE * 4 )
 
 /* The execution period of the check task. */
 #define mainCHECK_TASK_PERIOD				( ( TickType_t ) 3000 / portTICK_PERIOD_MS )
