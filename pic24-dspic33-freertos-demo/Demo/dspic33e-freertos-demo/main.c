@@ -74,13 +74,15 @@
 #include "lcd.h"
 #include "timertest.h"
 
+#pragma config FWDTEN = OFF
+
 /* Demo task priorities. */
 #define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2 )
 #define mainCHECK_TASK_PRIORITY				( tskIDLE_PRIORITY + 3 )
 #define mainCOM_TEST_PRIORITY				( 2 )
 
 /* The check task may require a bit more stack as it calls sprintf(). */
-#define mainCHECK_TAKS_STACK_SIZE			( configMINIMAL_STACK_SIZE * 2 )
+#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE * 4 )
 
 /* The execution period of the check task. */
 #define mainCHECK_TASK_PERIOD				( ( TickType_t ) 3000 / portTICK_PERIOD_MS )
@@ -144,7 +146,7 @@ int main( void )
 	vCreateBlockTimeTasks();
 
 	/* Create the test tasks defined within this file. */
-	xTaskCreate( vCheckTask, "Check", mainCHECK_TAKS_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
+	xTaskCreate( vCheckTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
 
 	/* Start the task that will control the LCD.  This returns the handle
 	to the queue used to write text out to the task. */

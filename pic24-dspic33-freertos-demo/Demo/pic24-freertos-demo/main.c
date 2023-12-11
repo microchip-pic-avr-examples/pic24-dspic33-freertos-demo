@@ -80,6 +80,8 @@
 #include "lcd.h"
 #include "timertest.h"
 
+#pragma config FWDTEN = OFF
+
 /* Demo task priorities. */
 #define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2 )
 #define mainCHECK_TASK_PRIORITY				( tskIDLE_PRIORITY + 3 )
