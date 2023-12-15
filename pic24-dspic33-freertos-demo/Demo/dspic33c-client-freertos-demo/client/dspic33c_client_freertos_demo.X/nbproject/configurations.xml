@@ -9,6 +9,8 @@
       <itemPath>../../../../Source/include/queue.h</itemPath>
       <itemPath>../../../../Source/include/semphr.h</itemPath>
       <itemPath>../../../../Source/include/task.h</itemPath>
+      <itemPath>../main_core.h</itemPath>
+      <itemPath>../main_core_types.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -35,12 +37,12 @@
         <itemPath>../../../Common/Minimal/blocktim.c</itemPath>
         <itemPath>../../../Common/Minimal/comtest.c</itemPath>
         <itemPath>../../../Common/Minimal/crflash.c</itemPath>
-        <itemPath>../../../Common/Minimal/integer.c</itemPath>
       </logicalFolder>
       <itemPath>../main.c</itemPath>
       <itemPath>../ParTest/ParTest.c</itemPath>
       <itemPath>../serial/serial.c</itemPath>
       <itemPath>../lcd.c</itemPath>
+      <itemPath>../main_core.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -141,7 +143,7 @@
         <property key="optimization-level" value="2"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="MPLAB_DSPIC_PORT"/>
+        <property key="preprocessor-macros" value=""/>
         <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
