@@ -42,3 +42,6 @@ http://www.freertos.org/FAQHelp.html
 - Explorer 16/32 Development Board (https://www.microchip.com/DM240001-2)
 - dsPIC33CH128MP508 PIM (https://www.microchip.com/MA330040)
 
+## Hardware Setup
+- For UART communication task - short pins p87 and p88 on Jumper46 or Jumper47
+
