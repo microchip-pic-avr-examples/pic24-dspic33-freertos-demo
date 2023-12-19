@@ -42,3 +42,6 @@ http://www.freertos.org/FAQHelp.html
 - Explorer 16/32 Development Board (https://www.microchip.com/DM240001-2)
 - PIC24FJ128GA010 PIM (https://www.microchip.com/MA240011)
 
+## Hardware Setup
+- For UART communication task - short pins p49 and p50 on Jumper48 or Jumper49
+
