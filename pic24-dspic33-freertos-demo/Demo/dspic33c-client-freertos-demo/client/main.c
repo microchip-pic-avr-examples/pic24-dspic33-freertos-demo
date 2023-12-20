@@ -1,71 +1,28 @@
 /*
-    FreeRTOS V9.0.0 - Copyright (C) 2016 Real Time Engineers Ltd.
-    All rights reserved
-
-    VISIT http://www.FreeRTOS.org TO ENSURE YOU ARE USING THE LATEST VERSION.
-
-    This file is part of the FreeRTOS distribution.
-
-    FreeRTOS is free software; you can redistribute it and/or modify it under
-    the terms of the GNU General Public License (version 2) as published by the
-    Free Software Foundation >>>> AND MODIFIED BY <<<< the FreeRTOS exception.
-
-    ***************************************************************************
-    >>!   NOTE: The modification to the GPL is included to allow you to     !<<
-    >>!   distribute a combined work that includes FreeRTOS without being   !<<
-    >>!   obliged to provide the source code for proprietary components     !<<
-    >>!   outside of the FreeRTOS kernel.                                   !<<
-    ***************************************************************************
-
-    FreeRTOS is distributed in the hope that it will be useful, but WITHOUT ANY
-    WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-    FOR A PARTICULAR PURPOSE.  Full license text is available on the following
-    link: http://www.freertos.org/a00114.html
-
-    ***************************************************************************
-     *                                                                       *
-     *    FreeRTOS provides completely free yet professionally developed,    *
-     *    robust, strictly quality controlled, supported, and cross          *
-     *    platform software that is more than just the market leader, it     *
-     *    is the industry's de facto standard.                               *
-     *                                                                       *
-     *    Help yourself get started quickly while simultaneously helping     *
-     *    to support the FreeRTOS project by purchasing a FreeRTOS           *
-     *    tutorial book, reference manual, or both:                          *
-     *    http://www.FreeRTOS.org/Documentation                              *
-     *                                                                       *
-    ***************************************************************************
-
-    http://www.FreeRTOS.org/FAQHelp.html - Having a problem?  Start by reading
-    the FAQ page "My application does not run, what could be wrong?".  Have you
-    defined configASSERT()?
-
-    http://www.FreeRTOS.org/support - In return for receiving this top quality
-    embedded software for free we request you assist our global community by
-    participating in the support forum.
-
-    http://www.FreeRTOS.org/training - Investing in training allows your team to
-    be as productive as possible as early as possible.  Now you can receive
-    FreeRTOS training directly from Richard Barry, CEO of Real Time Engineers
-    Ltd, and the world's leading authority on the world's leading RTOS.
-
-    http://www.FreeRTOS.org/plus - A selection of FreeRTOS ecosystem products,
-    including FreeRTOS+Trace - an indispensable productivity tool, a DOS
-    compatible FAT file system, and our tiny thread aware UDP/IP stack.
-
-    http://www.FreeRTOS.org/labs - Where new FreeRTOS products go to incubate.
-    Come and try FreeRTOS+TCP, our new open source TCP/IP stack for FreeRTOS.
-
-    http://www.OpenRTOS.com - Real Time Engineers ltd. license FreeRTOS to High
-    Integrity Systems ltd. to sell under the OpenRTOS brand.  Low cost OpenRTOS
-    licenses offer ticketed support, indemnification and commercial middleware.
-
-    http://www.SafeRTOS.com - High Integrity Systems also provide a safety
-    engineered and independently SIL3 certified version for use in safety and
-    mission critical applications that require provable dependability.
-
-    1 tab == 4 spaces!
-*/
+ * FreeRTOS V202212.01
+ * Copyright (C) 2020 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * this software and associated documentation files (the "Software"), to deal in
+ * the Software without restriction, including without limitation the rights to
+ * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+ * the Software, and to permit persons to whom the Software is furnished to do so,
+ * subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+ * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ * https://www.FreeRTOS.org
+ * https://github.com/FreeRTOS
+ *
+ */
 
 /*
  * Creates all the demo application tasks, then starts the scheduler.  The WEB
@@ -111,13 +68,11 @@
 #include "BlockQ.h"
 #include "crflash.h"
 #include "blocktim.h"
-#include "integer.h"
 #include "comtest2.h"
 #include "partest.h"
 #include "lcd.h"
 #include "timertest.h"
-
-//#pragma config FCKSM = CSECMD  
+#include "main_core.h"
 
 /* Demo task priorities. */
 #define mainBLOCK_Q_PRIORITY				( tskIDLE_PRIORITY + 2 )
@@ -125,7 +80,7 @@
 #define mainCOM_TEST_PRIORITY				( 2 )
 
 /* The check task may require a bit more stack as it calls sprintf(). */
-#define mainCHECK_TAKS_STACK_SIZE			( configMINIMAL_STACK_SIZE * 2 )
+#define mainCHECK_TASK_STACK_SIZE			( configMINIMAL_STACK_SIZE * 4 )
 
 /* The execution period of the check task. */
 #define mainCHECK_TASK_PERIOD				( ( TickType_t ) 3000 / portTICK_PERIOD_MS )
@@ -153,18 +108,38 @@ interrupt test" interrupt. */
 /* Dimension the buffer used to hold the value of the maximum jitter time when
 it is converted to a string. */
 #define mainMAX_STRING_LENGTH				( 20 )
+/*Data send from Host to Client*/
+#define MSI_DATA1 0xAAAA
+#define MSI_DATA2 0xBBBB
+#define MSI_DATA3 0xCCCC
+#define MSI_DATA4 0xDDDD
+#define MSI_DATA5 0xEEEE
 
 /*-----------------------------------------------------------*/
 
+/* Buffer to receive the MSI data sent from the Main core */
+uint16_t msiDataReceive[MSI1_ProtocolA_SIZE];
+
+/* Set to pdTRUE should an error be detected in any of the standard demo tasks. */
+unsigned short usErrorDetected = pdFALSE;
 /*
  * The check task as described at the top of this file.
  */
 static void vCheckTask( void *pvParameters );
 
 /*
+ * The MSI task receives the message sent by the main core through MSI interface .
+ */
+static void vMsiRxTask( void *pvParameters );
+/*
  * Setup the processor ready for the demo.
  */
+
 static void prvSetupHardware( void );
+/*
+ * Function checks whether MSI task is still running
+ */
+BaseType_t xIsMsiTaskStillRunning( void );
 
 /*
  * Setup the Clock.
@@ -186,15 +161,14 @@ int main( void )
 	/* Configure any hardware required for this demo. */
 	prvSetupHardware();
 	/* Create the standard demo tasks. */
-	//vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
-	vStartIntegerMathTasks( tskIDLE_PRIORITY );
 	vStartFlashCoRoutines( mainNUM_FLASH_COROUTINES );
 	vAltStartComTestTasks( mainCOM_TEST_PRIORITY, mainCOM_TEST_BAUD_RATE, mainCOM_TEST_LED );
-	vCreateBlockTimeTasks();
-
+    
+    /* Create a task for reading the messages received from main core through MSI*/
+    xTaskCreate( vMsiRxTask, "MSI",  configMINIMAL_STACK_SIZE*2 , NULL, mainCHECK_TASK_PRIORITY-1, NULL );
 	/* Create the test tasks defined within this file. */
-	xTaskCreate( vCheckTask, "Check", mainCHECK_TAKS_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
-
+	xTaskCreate( vCheckTask, "Check", mainCHECK_TASK_STACK_SIZE, NULL, mainCHECK_TASK_PRIORITY, NULL );
+    
 	/* Start the task that will control the LCD.  This returns the handle
 	to the queue used to write text out to the task. */
 	xLCDQueue = xStartLCDTask();
@@ -213,6 +187,7 @@ static void prvSetupHardware( void )
 {
     prvSetupClock();
 	vParTestInitialise();
+    MAIN_CORE_Initialize();
 }
 
 void prvSetupClock(void)
@@ -248,9 +223,6 @@ left on the LCD without being overwritten.  The second parameter is a pointer
 to the message to display itself. */
 xLCDMessage xMessage = { 0, cStringBuffer };
 
-/* Set to pdTRUE should an error be detected in any of the standard demo tasks. */
-unsigned short usErrorDetected = pdFALSE;
-
 	/* Initialise xLastExecutionTime so the first call to vTaskDelayUntil()
 	works correctly. */
 	xLastExecutionTime = xTaskGetTickCount();
@@ -261,8 +233,7 @@ unsigned short usErrorDetected = pdFALSE;
 		vTaskDelayUntil( &xLastExecutionTime, mainCHECK_TASK_PERIOD );
 
 		/* Has an error been found in any of the standard demo tasks? */
-
-		if( xAreIntegerMathsTaskStillRunning() != pdTRUE )
+        if( xIsMsiTaskStillRunning() != pdTRUE )
 		{
 			usErrorDetected = pdTRUE;
 			sprintf( cStringBuffer, "FAIL #1" );
@@ -274,13 +245,7 @@ unsigned short usErrorDetected = pdFALSE;
 			sprintf( cStringBuffer, "FAIL #2" );
 		}
 
-		if( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
-		{
-			usErrorDetected = pdTRUE;
-			sprintf( cStringBuffer, "FAIL #3" );
-		}
-
-		if( usErrorDetected == pdFALSE )
+		if( usErrorDetected != pdTRUE )
 		{
 			/* No errors have been discovered, so display LCD task run count". */
 			sprintf( cStringBuffer, "No Errors:%d", ( short ) runCount );
@@ -291,7 +256,43 @@ unsigned short usErrorDetected = pdFALSE;
 	}
 }
 /*-----------------------------------------------------------*/
+static portTASK_FUNCTION( vMsiRxTask, pvParameters )
+{
+    static char cStringBuffer[ mainMAX_STRING_LENGTH ];
+    xLCDMessage xMessage = { 0, cStringBuffer };
+    const TickType_t xDelay50ms = pdMS_TO_TICKS( 50 );
+    for (;;) {
+        //Wait for interrupt from Main core    
+        while (!MAIN_CORE_IsInterruptRequested());
+        MAIN_CORE_InterruptRequestAcknowledge();
+        while (MAIN_CORE_IsInterruptRequested());
+        MAIN_CORE_InterruptRequestAcknowledgeComplete();
 
+        msiDataReceive[0] = 0x00;
+        //Mailbox read 
+        MAIN_CORE_ProtocolRead(MSI1_ProtocolA, (uint16_t*) msiDataReceive);
+        if(usErrorDetected != pdTRUE )
+        {
+           sprintf( cStringBuffer, "DATA S<-M:0x%X", ( short ) msiDataReceive[0] );
+           xQueueSend( xLCDQueue, &xMessage, portMAX_DELAY );
+        }
+        vTaskDelay(xDelay50ms);
+    }
+}
+
+/*-----------------------------------------------------------*/
+BaseType_t xIsMsiTaskStillRunning(void) {
+    BaseType_t xReturn = pdFALSE;
+
+    /* Check data received is the expected ones */
+    if (msiDataReceive[0] == MSI_DATA1 || msiDataReceive[0] == MSI_DATA2 || msiDataReceive[0] == MSI_DATA3
+        || msiDataReceive[0] == MSI_DATA4 || msiDataReceive[0] == MSI_DATA5) {
+        xReturn = pdTRUE;
+    }
+
+    return xReturn;
+}
+/*-----------------------------------------------------------*/
 void vApplicationIdleHook( void )
 {
 	/* Schedule the co-routines from within the idle task hook. */

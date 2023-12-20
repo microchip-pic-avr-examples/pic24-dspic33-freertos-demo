@@ -9,6 +9,8 @@
       <itemPath>../../../../Source/include/queue.h</itemPath>
       <itemPath>../../../../Source/include/semphr.h</itemPath>
       <itemPath>../../../../Source/include/task.h</itemPath>
+      <itemPath>../main_core.h</itemPath>
+      <itemPath>../main_core_types.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -35,12 +37,12 @@
         <itemPath>../../../Common/Minimal/blocktim.c</itemPath>
         <itemPath>../../../Common/Minimal/comtest.c</itemPath>
         <itemPath>../../../Common/Minimal/crflash.c</itemPath>
-        <itemPath>../../../Common/Minimal/integer.c</itemPath>
       </logicalFolder>
       <itemPath>../main.c</itemPath>
       <itemPath>../ParTest/ParTest.c</itemPath>
       <itemPath>../serial/serial.c</itemPath>
       <itemPath>../lcd.c</itemPath>
+      <itemPath>../main_core.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -70,11 +72,11 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>noID</platformTool>
         <languageToolchain>XC16</languageToolchain>
-        <languageToolchainVersion>1.70</languageToolchainVersion>
+        <languageToolchainVersion>2.10</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="dsPIC33CH-MP_DFP" vendor="Microchip" version="1.10.223"/>
+        <pack name="dsPIC33CH-MP_DFP" vendor="Microchip" version="1.14.357"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -122,7 +124,7 @@
         <property key="expand-pragma-config" value="false"/>
         <property key="extra-include-directories"
                   value="..;..\..\..\..\..\Demo\dsPIC_MPLAB;..\..\..\..\Demo\dsPIC_MPLAB;..\..\..\..\Source\include;..\..\..\..\include;..\..\..\Common\include;..\..\..\Source\include;..\..\..\include;..\..\Common\include;..\..\Demo\dsPIC_MPLAB;..\..\include;..\FileSystem;..\include;."/>
-        <property key="isolate-each-function" value="false"/>
+        <property key="isolate-each-function" value="true"/>
         <property key="keep-inline" value="false"/>
         <property key="oXC16gcc-align-arr" value="false"/>
         <property key="oXC16gcc-cnsts-mauxflash" value="false"/>
@@ -141,7 +143,7 @@
         <property key="optimization-level" value="2"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
-        <property key="preprocessor-macros" value="MPLAB_DSPIC_PORT"/>
+        <property key="preprocessor-macros" value=""/>
         <property key="scalar-model" value="default"/>
         <property key="use-cci" value="false"/>
         <property key="use-iar" value="false"/>
@@ -210,7 +212,7 @@
         <property key="oXC16ld-nostdlib" value="false"/>
         <property key="oXC16ld-stackguard" value="16"/>
         <property key="preprocessor-macros" value=""/>
-        <property key="remove-unused-sections" value="false"/>
+        <property key="remove-unused-sections" value="true"/>
         <property key="report-memory-usage" value="true"/>
         <property key="secure-eeprom" value="no_eeprom"/>
         <property key="secure-flash" value="no_flash"/>
