@@ -1,3 +1,8 @@
+# PIC24 DSPIC33 FREERTOS DEMO v1.1.1
+### Release Highlights
+
+Patch release to fix the Discover Portal registration issue.
+
 # PIC24 DSPIC33 FREERTOS DEMO v1.1.0
 ### Release Highlights
 
