@@ -118,7 +118,7 @@ static void vCheckTask( void *pvParameters );
  * Setup the processor ready for the demo.
  */
 static void prvSetupHardware( void );
-
+static void vClockInitialise( void );
 /*-----------------------------------------------------------*/
 
 /*
@@ -130,7 +130,7 @@ int main( void )
 	prvSetupHardware();
 
 	/* Create the standard demo tasks. */
-	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
+	//vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
 	vStartIntegerMathTasks( tskIDLE_PRIORITY );
 	vStartFlashCoRoutines( mainNUM_FLASH_COROUTINES );
 	vAltStartComTestTasks( mainCOM_TEST_PRIORITY, mainCOM_TEST_BAUD_RATE, mainCOM_TEST_LED );
@@ -152,6 +152,96 @@ static void prvSetupHardware( void )
 {
     vClockInitialise();
 	vParTestInitialise();
+}
+
+/*-----------------------------------------------------------
+ * Clock Initialization.
+ *-----------------------------------------------------------*/
+
+void vClockInitialise()
+{
+       /*  
+        System Clock Source                             :  PLL1 Out output
+        System/Generator 1 frequency (Fosc)             :  50 MHz
+        
+        Clock Generator 2 frequency                     : 8 MHz
+        Clock Generator 3 frequency                     : 8 MHz
+        Clock Generator 8 frequency                     : 8 MHz
+        
+        PLL 1 frequency                                 : 200 MHz
+        PLL 1 VCO Out frequency                         : 1000 MHz
+
+    */
+    // TUN 0x0; 
+    FRCTUN = 0x0UL;
+    // TUN 0x0; 
+    BFRCTUN = 0x0UL;
+    
+    OSCCTRLbits.FRCEN = 1U;
+    while(OSCCTRLbits.FRCRDY == 0U){}; 
+    OSCCTRLbits.BFRCEN = 1U;
+    while(OSCCTRLbits.BFRCRDY == 0U){};
+    
+    // NOSC FRC Oscillator; OE enabled; SIDL disabled; ON enabled; BOSC Serial Test Mode clock (PGC); FSCMEN disabled; DIVSWEN disabled; OSWEN disabled; EXTCFSEL disabled; EXTCFEN disabled; FOUTSWEN disabled; RIS disabled; PLLSWEN disabled; 
+    PLL1CON = 0x9100UL;
+    // POSTDIV2 1x divide; POSTDIV1 5x divide; PLLFBDIV 125; PLLPRE 1; 
+    PLL1DIV = 0x1007D29UL;
+    //Enable PLL Input and Feedback Divider update
+    PLL1CONbits.PLLSWEN = 1U;
+    while (PLL1CONbits.PLLSWEN == 1){};
+    PLL1CONbits.FOUTSWEN = 1U;
+    while (PLL1CONbits.FOUTSWEN == 1U){};
+    //enable clock switching
+    PLL1CONbits.OSWEN = 1U; 
+    //wait for switching
+    while(PLL1CONbits.OSWEN == 1U){}; 
+    //wait for clock to be ready
+    while(OSCCTRLbits.PLL1RDY == 0U){};    
+    
+    //Configure VCO Divider
+    // INTDIV 0; 
+    VCO1DIV = 0x0UL;
+    //enable PLL VCO divider
+    PLL1CONbits.DIVSWEN = 1U; 
+    //wait for setup complete
+    while(PLL1CONbits.DIVSWEN == 1U){}; 
+    
+    // NOSC PLL1 Out output; OE enabled; SIDL disabled; ON enabled; BOSC FRC Oscillator; FSCMEN disabled; DIVSWEN disabled; OSWEN disabled; EXTCFSEL External clock fail detection module #1; EXTCFEN disabled; RIS disabled; 
+    CLK1CON = 0x19500UL;
+    // FRACDIV 0; INTDIV 2; 
+    CLK1DIV = 0x20000UL;
+    //enable divide factors
+    CLK1CONbits.DIVSWEN = 1U; 
+    //wait for divide factors to get updated
+    while(CLK1CONbits.DIVSWEN == 1U){};
+    //enable clock switching
+    CLK1CONbits.OSWEN = 1U; 
+    //wait for clock switching complete
+    while(CLK1CONbits.OSWEN == 1U){};
+    
+    // NOSC FRC Oscillator; OE enabled; SIDL disabled; ON enabled; BOSC FRC Oscillator; FSCMEN disabled; DIVSWEN disabled; OSWEN disabled; EXTCFSEL External clock fail detection module #1; EXTCFEN disabled; RIS disabled; 
+    CLK2CON = 0x19101UL;
+    //enable clock switching
+    CLK2CONbits.OSWEN = 1U; 
+    //wait for clock switching complete
+    while(CLK2CONbits.OSWEN == 1U){};
+    
+    // NOSC Backup FRC Oscillator; OE enabled; SIDL disabled; ON enabled; BOSC Backup FRC Oscillator; FSCMEN disabled; DIVSWEN disabled; OSWEN disabled; EXTCFSEL External clock fail detection module #1; EXTCFEN disabled; RIS disabled; 
+    CLK3CON = 0x29202UL;
+    //enable clock switching
+    CLK3CONbits.OSWEN = 1U; 
+    //wait for clock switching complete
+    while(CLK3CONbits.OSWEN == 1U){};
+    
+    // NOSC FRC Oscillator; OE enabled; SIDL disabled; ON enabled; BOSC Serial Test Mode clock (PGC); FSCMEN disabled; DIVSWEN disabled; OSWEN disabled; EXTCFSEL External clock fail detection module #1; EXTCFEN disabled; RIS disabled; 
+    CLK8CON = 0x9100UL;
+    // FRACDIV 0x0; INTDIV 0x0; 
+    CLK8DIV = 0x0UL;
+    //enable clock switching
+    CLK8CONbits.OSWEN = 1U; 
+    //wait for clock switching complete
+    while(CLK8CONbits.OSWEN == 1U){};
+     
 }
 /*-----------------------------------------------------------*/
 
