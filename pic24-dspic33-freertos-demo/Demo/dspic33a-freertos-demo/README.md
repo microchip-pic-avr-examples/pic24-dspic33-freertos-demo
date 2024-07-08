@@ -5,8 +5,8 @@
 ## Summary
 
 This repository contains the freeRTOS demos for Microchip PIC24 and dsPIC device families.
-For the demo applications, MPLAB X and MPLAB XC16 are the preferred IDE and compiler respectively with which to build the FreeRTOS demos. 
-The board to be used to run the demo is Explorer 16/32 (Explore 16/32 is backward compatible with Explorer 16).
+For the demo applications, MPLAB X and MPLAB XC-DSC are the preferred IDE and compiler respectively with which to build the FreeRTOS demos. 
+The board to be used to run this demo is dsPIC33A Curiosity Platform Development Board.
 The version of freeRTOS used in this demo is : freeRTOS v10.5
 
 ## Related Documentation
@@ -32,16 +32,16 @@ http://www.freertos.org/FAQHelp.html
 
 ## Software Used 
 
-- MPLAB® X IDE v6.0.0 or newer (https://www.microchip.com/mplabx)
-- MPLAB® XC16 v2.0.0 or newer (https://www.microchip.com/xc) 
+- MPLAB® X IDE v6.20.0 or newer (https://www.microchip.com/mplabx)
+- MPLAB® XC-DSC v3.20.0 or newer (https://www.microchip.com/xcdsc) 
 - Any of the serial terminal application. Example: Tera Term (https://ttssh2.osdn.jp/index.html.en)
 
 
 ## Hardware Used
 
-- Explorer 16/32 Development Board (https://www.microchip.com/DM240001-2)
-- PIC24FJ128GA010 PIM (https://www.microchip.com/MA240011)
+- dsPIC33A Curiosity Platform Development Board (https://www.microchip.com/DM240001-2)
+- dsPIC33AK128MC106 DIM (https://www.microchip.com/MA330025-1)
 
 ## Hardware Setup
-- For UART communication task - short pins p49 and p50 on Jumper48 or Jumper49
+- For UART communication task - short pins p100 and p102 on Jumper J10.
 
