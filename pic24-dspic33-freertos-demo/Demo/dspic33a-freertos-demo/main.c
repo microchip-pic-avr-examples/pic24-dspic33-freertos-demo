@@ -121,11 +121,6 @@ static void prvSetupHardware( void );
 
 /*-----------------------------------------------------------*/
 
-/* The queue used to send messages to the LCD task. */
-static QueueHandle_t xLCDQueue;
-
-/*-----------------------------------------------------------*/
-
 /*
  * Create the demo tasks then start the scheduler.
  */
@@ -165,12 +160,6 @@ static void vCheckTask( void *pvParameters )
     /* Used to wake the task at the correct frequency. */
     TickType_t xLastExecutionTime;
 
-    /* Buffer into which the maximum jitter time is written as a string. */
-    static char cStringBuffer[ mainMAX_STRING_LENGTH ];
-
-    /* Set to pdTRUE should an error be detected in any of the standard demo tasks. */
-    volatile unsigned int usErrorDetected = pdFALSE;
-
 	/* Initialise xLastExecutionTime so the first call to vTaskDelayUntil()
 	works correctly. */
 	xLastExecutionTime = xTaskGetTickCount();
@@ -184,25 +173,21 @@ static void vCheckTask( void *pvParameters )
 
 		if( xAreIntegerMathsTaskStillRunning() != pdTRUE )
 		{
-			usErrorDetected = pdTRUE;
             PORTDbits.RD0 = 1; //Green
 		}
 
 		if( xAreComTestTasksStillRunning() != pdTRUE )
 		{
-			usErrorDetected = pdTRUE;
             PORTDbits.RD2 = 1; //Blue
 		}
 
 		if( xAreBlockTimeTestTasksStillRunning() != pdTRUE )
 		{
-			usErrorDetected = pdTRUE;
-            PORTCbits.RC2 = 1;
+            PORTCbits.RC2 = 1; //Red
 		}
 
 		if( xAreBlockingQueuesStillRunning() != pdTRUE )
 		{
-			usErrorDetected = pdTRUE;
             PORTDbits.RD0 = 1;
             Nop();
             Nop();

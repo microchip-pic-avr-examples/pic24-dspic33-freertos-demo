@@ -63,7 +63,6 @@ volatile StackType_t TopOfStack_addr = 0;
 
 INLINE void set_SPLIM(uint32_t new_splim);
 __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
-__attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
 /*-----------------------------------------------------------*/
 
 /*
@@ -174,10 +173,10 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
     *pxTopOfStack++ = 0xBEEFBABE;  
     *pxTopOfStack++ = 0xDEADBEEF;  
 
-    *pxTopOfStack++ = portINITIAL_SR;                //  Used when context-switch on portYIELD() - ISR-RETFIE  
-    *pxTopOfStack++ = ( StackType_t ) pxCode;        //  Save the program counter - RETFIE will restore it
-    *pxTopOfStack++ = portINITIAL_SR;                //  this may not be needed, since we unified the context switching always from ISR
-    *pxTopOfStack++ = ( StackType_t ) pvParameters;  //  Parameters are passed in W0
+    *pxTopOfStack++ = portINITIAL_SR;                /*  Used when context-switch on portYIELD() - ISR-RETFIE  */
+    *pxTopOfStack++ = ( StackType_t ) pxCode;        /*  Save the program counter - RETFIE will restore it */
+    *pxTopOfStack++ = portINITIAL_SR;                /*  this may not be needed, since we unified the context switching always from ISR */
+    *pxTopOfStack++ = ( StackType_t ) pvParameters;  /*  Parameters are passed in W0 */
 
     // Registers default value, unique for debugging 
     *pxTopOfStack++ = 0x000000A1;    // W1
@@ -320,7 +319,7 @@ inline void portDISABLE_INTERRUPTS(void)
 /* Critical section management. */
 inline void portENABLE_INTERRUPTS(void)
 {   
-   // FreeRtos Tasks runs at IPL=0 
+   /* FreeRtos Tasks runs at IPL=0 */
    __asm__ volatile(   "DISICTL #0x0 \n\t" \
                         : /* no output */
                         : /* no inputs */
@@ -376,8 +375,7 @@ void __attribute__((__interrupt__, naked)) configTICK_INTERRUPT_HANDLER( void )
 }
 
 
-void _GeneralTrap( void ) __attribute__ ((interrupt, naked, alias("software_isr")));
-void  __attribute__ ((interrupt, naked)) software_isr(void) 
+void  __attribute__ ((interrupt, naked)) _GeneralTrap(void) 
 {
     /* _GeneralTrap covers multiple Traps only portYIELD if the software trap was triggered */            
     if (INTCON5bits.SOFT == 1) {
@@ -441,8 +439,6 @@ static StackType_t uxTimerTaskStack[ configTIMER_TASK_STACK_DEPTH ];
 
 /*-----------------------------------------------------------*/
 
-
-/*-----------------------------------------------------------*/
 
 void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName )
 {
