@@ -130,7 +130,7 @@ int main( void )
 	prvSetupHardware();
 
 	/* Create the standard demo tasks. */
-	//vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
+	vStartBlockingQueueTasks( mainBLOCK_Q_PRIORITY );
 	vStartIntegerMathTasks( tskIDLE_PRIORITY );
 	vStartFlashCoRoutines( mainNUM_FLASH_COROUTINES );
 	vAltStartComTestTasks( mainCOM_TEST_PRIORITY, mainCOM_TEST_BAUD_RATE, mainCOM_TEST_LED );

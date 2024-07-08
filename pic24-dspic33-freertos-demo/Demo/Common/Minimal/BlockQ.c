@@ -48,7 +48,6 @@
  *
  */
 
-
 #include <stdlib.h>
 
 /* Scheduler include files. */
@@ -59,27 +58,8 @@
 /* Demo program include files. */
 #include "BlockQ.h"
 
-#include "semphr.h"
-
-
-#define blckqSTACK_SIZE  configMINIMAL_STACK_SIZE
-
-StackType_t QConsB1_STACK[ blckqSTACK_SIZE ];
-StackType_t QConsB2_STACK[ blckqSTACK_SIZE ];
-//StackType_t QConsB3_STACK[ blckqSTACK_SIZE ];
-//StackType_t QConsB4_STACK[ blckqSTACK_SIZE ];
-//StackType_t QConsB5_STACK[ blckqSTACK_SIZE ];
-//StackType_t QConsB6_STACK[ blckqSTACK_SIZE ];
-
-StaticTask_t QConsB1_TASK_xTaskBuffer;
-StaticTask_t QConsB2_TASK_xTaskBuffer;
-//StaticTask_t QConsB3_TASK_xTaskBuffer;
-//StaticTask_t QConsB4_TASK_xTaskBuffer;
-//StaticTask_t QConsB5_TASK_xTaskBuffer;
-//StaticTask_t QConsB6_TASK_xTaskBuffer;
-
-
-#define blckqNUM_TASK_SETS    ( 1 )
+#define blckqSTACK_SIZE       configMINIMAL_STACK_SIZE
+#define blckqNUM_TASK_SETS    ( 3 )
 
 #if ( configSUPPORT_DYNAMIC_ALLOCATION == 0 )
     #error This example cannot be used if dynamic allocation is not allowed.
@@ -90,7 +70,7 @@ typedef struct BLOCKING_QUEUE_PARAMETERS
 {
     QueueHandle_t xQueue;             /*< The queue to be used by the task. */
     TickType_t xBlockTime;            /*< The block time to use on queue reads/writes. */
-    volatile BaseType_t * psCheckVariable; /*< Incremented on each successful cycle to check the task is still running. */
+    volatile short * psCheckVariable; /*< Incremented on each successful cycle to check the task is still running. */
 } xBlockingQueueParameters;
 
 /* Task function that creates an incrementing number and posts it on a queue. */
@@ -103,11 +83,11 @@ static portTASK_FUNCTION_PROTO( vBlockingQueueConsumer, pvParameters );
 /* Variables which are incremented each time an item is removed from a queue, and
  * found to be the expected value.
  * These are used to check that the tasks are still running. */
-static volatile BaseType_t sBlockingConsumerCount[ blckqNUM_TASK_SETS ] = {0};////{ ( BaseType_t ) 0, ( BaseType_t ) 0, ( BaseType_t ) 0 };
+static volatile short sBlockingConsumerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t ) 0, ( uint16_t ) 0 };
 
 /* Variable which are incremented each time an item is posted on a queue.   These
  * are used to check that the tasks are still running. */
-static volatile BaseType_t sBlockingProducerCount[ blckqNUM_TASK_SETS ] = {0};//{ ( BaseType_t ) 0, ( BaseType_t ) 0, ( BaseType_t ) 0 };
+static volatile short sBlockingProducerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t ) 0, ( uint16_t ) 0 };
 
 /*-----------------------------------------------------------*/
 
@@ -127,7 +107,7 @@ void vStartBlockingQueueTasks( UBaseType_t uxPriority )
 
     /* Create the queue used by the first two tasks to pass the incrementing number.
      * Pass a pointer to the queue in the parameter structure. */
-    pxQueueParameters1->xQueue = xQueueCreate( uxQueueSize1, ( UBaseType_t ) sizeof( BaseType_t ) );
+    pxQueueParameters1->xQueue = xQueueCreate( uxQueueSize1, ( UBaseType_t ) sizeof( uint16_t ) );
 
     /* The consumer is created first so gets a block time as described above. */
     pxQueueParameters1->xBlockTime = xBlockTime;
@@ -153,42 +133,43 @@ void vStartBlockingQueueTasks( UBaseType_t uxPriority )
 
     /* Note the producer has a lower priority than the consumer when the tasks are
      * spawned. */
-    xTaskCreateStatic( vBlockingQueueConsumer, "QConsB1", blckqSTACK_SIZE, ( void * ) pxQueueParameters1, uxPriority, QConsB1_STACK, &QConsB1_TASK_xTaskBuffer );
-    xTaskCreateStatic( vBlockingQueueProducer, "QProdB2", blckqSTACK_SIZE, ( void * ) pxQueueParameters2, tskIDLE_PRIORITY, QConsB2_STACK, &QConsB2_TASK_xTaskBuffer );
+    xTaskCreate( vBlockingQueueConsumer, "QConsB1", blckqSTACK_SIZE, ( void * ) pxQueueParameters1, uxPriority, NULL );
+    xTaskCreate( vBlockingQueueProducer, "QProdB2", blckqSTACK_SIZE, ( void * ) pxQueueParameters2, tskIDLE_PRIORITY, NULL );
 
-//   
-//    /* Create the second two tasks as described at the top of the file.   This uses
-//     * the same mechanism but reverses the task priorities. */
-//
-//    pxQueueParameters3 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
-//    pxQueueParameters3->xQueue = xQueueCreate( uxQueueSize1, ( UBaseType_t ) sizeof( uint16_t ) );
-//    pxQueueParameters3->xBlockTime = xDontBlock;
-//    pxQueueParameters3->psCheckVariable = &( sBlockingProducerCount[ 1 ] );
-//
-//    pxQueueParameters4 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
-//    pxQueueParameters4->xQueue = pxQueueParameters3->xQueue;
-//    pxQueueParameters4->xBlockTime = xBlockTime;
-//    pxQueueParameters4->psCheckVariable = &( sBlockingConsumerCount[ 1 ] );
-//
-//    xTaskCreateStatic( vBlockingQueueConsumer, "QConsB3", blckqSTACK_SIZE, ( void * ) pxQueueParameters3, tskIDLE_PRIORITY, QConsB3_STACK, &QConsB3_TASK_xTaskBuffer );
-//    xTaskCreateStatic( vBlockingQueueProducer, "QProdB4", blckqSTACK_SIZE, ( void * ) pxQueueParameters4, uxPriority, QConsB4_STACK, &QConsB4_TASK_xTaskBuffer );
-//
-//
-//    /* Create the last two tasks as described above.  The mechanism is again just
-//     * the same.  This time both parameter structures are given a block time. */
-//    pxQueueParameters5 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
-//    pxQueueParameters5->xQueue = xQueueCreate( uxQueueSize5, ( UBaseType_t ) sizeof( uint16_t ) );
-//    pxQueueParameters5->xBlockTime = xBlockTime;
-//    pxQueueParameters5->psCheckVariable = &( sBlockingProducerCount[ 2 ] );
-//
-//    pxQueueParameters6 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
-//    pxQueueParameters6->xQueue = pxQueueParameters5->xQueue;
-//    pxQueueParameters6->xBlockTime = xBlockTime;
-//    pxQueueParameters6->psCheckVariable = &( sBlockingConsumerCount[ 2 ] );
-//
-//    xTaskCreateStatic( vBlockingQueueProducer, "QProdB5", blckqSTACK_SIZE, ( void * ) pxQueueParameters5, tskIDLE_PRIORITY, QConsB5_STACK, &QConsB5_TASK_xTaskBuffer );
-//    xTaskCreateStatic( vBlockingQueueConsumer, "QConsB6", blckqSTACK_SIZE, ( void * ) pxQueueParameters6, tskIDLE_PRIORITY, QConsB6_STACK, &QConsB6_TASK_xTaskBuffer );
 
+
+    /* Create the second two tasks as described at the top of the file.   This uses
+     * the same mechanism but reverses the task priorities. */
+
+    pxQueueParameters3 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
+    pxQueueParameters3->xQueue = xQueueCreate( uxQueueSize1, ( UBaseType_t ) sizeof( uint16_t ) );
+    pxQueueParameters3->xBlockTime = xDontBlock;
+    pxQueueParameters3->psCheckVariable = &( sBlockingProducerCount[ 1 ] );
+
+    pxQueueParameters4 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
+    pxQueueParameters4->xQueue = pxQueueParameters3->xQueue;
+    pxQueueParameters4->xBlockTime = xBlockTime;
+    pxQueueParameters4->psCheckVariable = &( sBlockingConsumerCount[ 1 ] );
+
+    xTaskCreate( vBlockingQueueConsumer, "QConsB3", blckqSTACK_SIZE, ( void * ) pxQueueParameters3, tskIDLE_PRIORITY, NULL );
+    xTaskCreate( vBlockingQueueProducer, "QProdB4", blckqSTACK_SIZE, ( void * ) pxQueueParameters4, uxPriority, NULL );
+
+
+
+    /* Create the last two tasks as described above.  The mechanism is again just
+     * the same.  This time both parameter structures are given a block time. */
+    pxQueueParameters5 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
+    pxQueueParameters5->xQueue = xQueueCreate( uxQueueSize5, ( UBaseType_t ) sizeof( uint16_t ) );
+    pxQueueParameters5->xBlockTime = xBlockTime;
+    pxQueueParameters5->psCheckVariable = &( sBlockingProducerCount[ 2 ] );
+
+    pxQueueParameters6 = ( xBlockingQueueParameters * ) pvPortMalloc( sizeof( xBlockingQueueParameters ) );
+    pxQueueParameters6->xQueue = pxQueueParameters5->xQueue;
+    pxQueueParameters6->xBlockTime = xBlockTime;
+    pxQueueParameters6->psCheckVariable = &( sBlockingConsumerCount[ 2 ] );
+
+    xTaskCreate( vBlockingQueueProducer, "QProdB5", blckqSTACK_SIZE, ( void * ) pxQueueParameters5, tskIDLE_PRIORITY, NULL );
+    xTaskCreate( vBlockingQueueConsumer, "QConsB6", blckqSTACK_SIZE, ( void * ) pxQueueParameters6, tskIDLE_PRIORITY, NULL );
 }
 /*-----------------------------------------------------------*/
 
@@ -276,8 +257,8 @@ static portTASK_FUNCTION( vBlockingQueueConsumer, pvParameters )
 /* This is called to check that all the created tasks are still running. */
 BaseType_t xAreBlockingQueuesStillRunning( void )
 {
-    static short sLastBlockingConsumerCount[ blckqNUM_TASK_SETS ] = {0};//{ ( uint16_t ) 0, ( uint16_t ) 0, ( uint16_t ) 0 };
-    static short sLastBlockingProducerCount[ blckqNUM_TASK_SETS ] = {0};//{ ( uint16_t ) 0, ( uint16_t ) 0, ( uint16_t ) 0 };
+    static short sLastBlockingConsumerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t ) 0, ( uint16_t ) 0 };
+    static short sLastBlockingProducerCount[ blckqNUM_TASK_SETS ] = { ( uint16_t ) 0, ( uint16_t ) 0, ( uint16_t ) 0 };
     BaseType_t xReturn = pdPASS, xTasks;
 
     /* Not too worried about mutual exclusion on these variables as they are 16
