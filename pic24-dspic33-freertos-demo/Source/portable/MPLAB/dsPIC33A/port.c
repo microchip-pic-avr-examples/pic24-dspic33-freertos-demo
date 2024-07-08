@@ -70,18 +70,11 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
 #if ( portHAS_STACK_OVERFLOW_CHECKING == 1 )
  StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, StackType_t * pxEndOfStack, TaskFunction_t pxCode, void *pvParameters )
  {
-    //TaskParam_t * ParamsPtr = pvParameters;
-
     /* Setup the stack as if a yield had occurred. */
-
-    // put thread name on stack for debugging
-    // memcpy(pxTopOfStack, ParamsPtr->Name, 12);
-    // pxTopOfStack = pxTopOfStack + 3;
-
-    *pxTopOfStack++ = 0xBAAAAAAD;  //
-    *pxTopOfStack++ = 0xCAFEB0BA;  //   <-- Just for debugging 
-    *pxTopOfStack++ = 0xBEEFBABE;  //
-    *pxTopOfStack++ = 0xDEADBEEF;  //
+    *pxTopOfStack++ = 0xBAAAAAAD;  
+    *pxTopOfStack++ = 0xCAFEB0BA;  
+    *pxTopOfStack++ = 0xBEEFBABE;  
+    *pxTopOfStack++ = 0xDEADBEEF;  
 
     *pxTopOfStack++ = portINITIAL_SR;                //  Used when context-switch on portYIELD() - ISR-RETFIE  
     *pxTopOfStack++ = ( StackType_t ) pxCode;        //  Save the program counter - RETFIE will restore it
@@ -142,7 +135,6 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
     *pxTopOfStack++ = 0x00000000;    // FEAR    
  
     *pxTopOfStack++ = 0x00000000;    // RCOUNT
-    //*pxTopOfStack++ = 0x00000000;    // DISIIPL
     *pxTopOfStack++ = 0x00000000;    // CORCON
     *pxTopOfStack++ = 0x00000101;    // MODCON
     *pxTopOfStack++ = 0x00000000;    // XMODSRT
@@ -161,7 +153,7 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
     *pxTopOfStack++ = 0x00000000;    // critical nesting - W0 
     *pxTopOfStack++ = ( StackType_t ) pxEndOfStack - 4; // SPLIM 
 
-  return pxTopOfStack;
+    return pxTopOfStack;
 
 }
 
@@ -169,16 +161,12 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
 
  StackType_t *pxPortInitialiseStack( StackType_t *pxTopOfStack, TaskFunction_t pxCode, void *pvParameters )
  {
-    // volatile StackType_t TopOfStack_data = *(StackType_t TopOfStack*) pxTopOfStack;
-    // TopOfStack_addr = &pxTopOfStack;   
-
-
     /* Setup the stack as if a yield had occurred. */
 
-    *pxTopOfStack++ = 0xBAAAAAAD;  //
-    *pxTopOfStack++ = 0xCAFEB0BA;  //   <-- Just for debugging 
-    *pxTopOfStack++ = 0xBEEFBABE;  //
-    *pxTopOfStack++ = 0xDEADBEEF;  //
+    *pxTopOfStack++ = 0xBAAAAAAD;  
+    *pxTopOfStack++ = 0xCAFEB0BA;     
+    *pxTopOfStack++ = 0xBEEFBABE;  
+    *pxTopOfStack++ = 0xDEADBEEF;  
 
     *pxTopOfStack++ = portINITIAL_SR;                //  Used when context-switch on portYIELD() - ISR-RETFIE  
     *pxTopOfStack++ = ( StackType_t ) pxCode;        //  Save the program counter - RETFIE will restore it
@@ -236,7 +224,6 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
     *pxTopOfStack++ = 0x00000F31;    // F31
  
     *pxTopOfStack++ = 0x00000000;    // RCOUNT
- //   *pxTopOfStack++ = 0x00000000;    // DISIIPL
     *pxTopOfStack++ = 0x00000000;    // CORCON
     *pxTopOfStack++ = 0x00000101;    // MODCON
     *pxTopOfStack++ = 0x00000000;    // XMODSRT
@@ -255,7 +242,7 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
     *pxTopOfStack++ = 0x00000000;    // critical nesting - W0 
     *pxTopOfStack++ = MAX_RAM_LIM_ADDRESS; // SPLIM 
 
-  return pxTopOfStack;
+    return pxTopOfStack;
 
 }
 #endif

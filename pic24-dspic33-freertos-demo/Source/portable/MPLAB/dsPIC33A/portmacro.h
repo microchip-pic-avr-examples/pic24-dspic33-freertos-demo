@@ -84,21 +84,6 @@ void portENABLE_INTERRUPTS(void);
 
 void __attribute__ ((naked)) portYIELD(void);
 
-// To make the context switch symetrical, tick-isr vs yield from API
-// we force a software interrupt, so every context switch
-// is handled inside an ISR 
-//
-// on dsPIC33A, the SW interrupt is a trap, masking all other interrupts
-// this SW Interrupt based implementation is not recommended 
-#define portYIELD_WITHIN_API_SW_INT() ({                              \
-                                     INTCON5bits.SOFT = 1;            \
-                                     __asm__ volatile ("NOP");        \
-                                     __asm__ volatile ("NOP");        \
-                                                                      \
-                               });
-
-
-
 // When yielding from API (outside an ISR), we need to manually save the SR
 // required by the RETFIE instruction executed at the end of the portYIELD procedure
 // The PC saved when calling the function portYIELD, is the PC
@@ -214,9 +199,6 @@ void __attribute__ ((naked)) portYIELD(void);
                         "PUSH.l  SPLIM                      \n"      \
                         "MOV.l   _pxCurrentTCB, W0          \n"      \
                         "MOV.l   W15, [W0]                  \n"      \
-                        : /* no outputs */    \
-                        : /* no inputs */     \
-                        : /* no clobbers */   \
                         ); \
 });
 
@@ -305,9 +287,6 @@ void __attribute__ ((naked)) portYIELD(void);
                         "POP.l   W1                         \n"      \
                         "POP.l   W0                         \n"      \
                         "MOV.l   [--W15], SR                \n\t"    \
-                      : /* no outputs */    \
-                      : /* no inputs */     \
-                      : /* no clobbers */   \
                      ); \
 });
 
