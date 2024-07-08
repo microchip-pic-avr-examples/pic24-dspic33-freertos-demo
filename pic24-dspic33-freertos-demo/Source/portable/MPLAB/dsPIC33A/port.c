@@ -39,6 +39,12 @@ FreeRTOS.org V4.3.0. */
     #define configKERNEL_INTERRUPT_PRIORITY 1
 #endif
 
+/* Use _T1Interrupt as the interrupt handler name if the application writer has
+not provided their own. */
+#ifndef configTICK_INTERRUPT_HANDLER
+	#define configTICK_INTERRUPT_HANDLER _T1Interrupt
+#endif /* configTICK_INTERRUPT_HANDLER */
+
 
 /* Records the nesting depth of calls to portENTER_CRITICAL(). */
 UBaseType_t uxCriticalNesting = 0;
@@ -76,10 +82,10 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
     *pxTopOfStack++ = 0xBEEFBABE;  
     *pxTopOfStack++ = 0xDEADBEEF;  
 
-    *pxTopOfStack++ = portINITIAL_SR;                //  Used when context-switch on portYIELD() - ISR-RETFIE  
-    *pxTopOfStack++ = ( StackType_t ) pxCode;        //  Save the program counter - RETFIE will restore it
-    *pxTopOfStack++ = portINITIAL_SR;                //  this may not be needed, since we unified the context switching always from ISR
-    *pxTopOfStack++ = ( StackType_t ) pvParameters;  //  Parameters are passed in W0
+    *pxTopOfStack++ = portINITIAL_SR;                /*  Used when context-switch on portYIELD() - ISR-RETFIE  */
+    *pxTopOfStack++ = ( StackType_t ) pxCode;        /*  Save the program counter - RETFIE will restore it */
+    *pxTopOfStack++ = portINITIAL_SR;                /*  this may not be needed, since we unified the context switching always from ISR */
+    *pxTopOfStack++ = ( StackType_t ) pvParameters;  /*  Parameters are passed in W0 */
 
     // Registers default value, unique for debugging   
     *pxTopOfStack++ = 0x000000A1;    // W1
@@ -251,26 +257,17 @@ __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void );
 BaseType_t xPortStartScheduler( void )
 {
     /* Setup a timer for the tick ISR. */
-   vApplicationSetupTickTimerInterrupt();
+    vApplicationSetupTickTimerInterrupt();
 
-   __asm__ volatile ("NOP");
-   __asm__ volatile ("NOP");
+    __asm__ volatile ("NOP");
+    __asm__ volatile ("NOP");
 
     /* Restore the context of the first task to run. */
     portRESTORE_CONTEXT();
+    
+    __asm__ volatile ( "retfie" ); 
 
-   //  Simulate a RETFIE from ISR 
-   //  dsPIC : The stack is popped and the restore SR
-   //          RETFIE will restore:
-   //          (W15)-4 -> W15
-   //          TOS[23:1] -> (PC[23:1])  = new Task address 
-   //          (W15)-4 -> W15
-   //          TOS[15:0] -> (SR[31:0])  = new Task Status Register
-   //          NOP
-   
-   __asm__ volatile ( "retfie" ); 
-
-   // should not get here
+    /* should not get here */
     __asm__ volatile ("NOP");
     __asm__ volatile ("NOP");
 
@@ -308,9 +305,8 @@ void vPortExitCritical( void )
 /* Critical section management. */
 inline void portDISABLE_INTERRUPTS(void)
 {                   
-   // TickTimer should operate at IPL = configKERNEL_INTERRUPT_PRIORITY
-   // to block the tick ISR, elevate IPL to a level above
-   // than  configKERNEL_INTERRUPT_PRIORITY
+   /* TickTimer should operate at IPL = configKERNEL_INTERRUPT_PRIORITY, to block the tick ISR, 
+    * elevate IPL to a level above than  configKERNEL_INTERRUPT_PRIORITY */
 
    uint8_t new_ipl_level = configKERNEL_INTERRUPT_PRIORITY+1;
 
@@ -335,65 +331,58 @@ inline void portENABLE_INTERRUPTS(void)
 
 void __attribute__ ((naked)) portYIELD(void) 
 {               
-   //set_led_3();
-   // portYIELD enters on :
-   //     1 : Systick_Callback CTX=1, IPL1 
-   //         but we want to save/restore Ctx-0 regs (IPL0 Task regs)
-   //     2: SW Interrupts:
-   //         Handled as trap IPL > 8, but CTX=0
-   //         changing CTX is redundant for a SW Trap, but takes longer to test 
-   //         for CTX value than just always change CTX=0
+   /* portYIELD enters on :
+        1 : Systick_Callback CTX=1, IPL1 
+            but we want to save/restore Ctx-0 regs (IPL0 Task regs)
+        2: SW Interrupts:
+            Handled as trap IPL > 8, but CTX=0
+            changing CTX is redundant for a SW Trap, but takes longer to test 
+            for CTX value than just always change CTX=0 */
+    
    __asm__ volatile ("CTXTSWP #0x0");                          
 
-   // Now focused on CTX-0, save the context
-   // Save the context of the current task
+   /* Now focused on CTX-0, save the context, Save the context of the current task */
    portSAVE_CONTEXT(); 
 
-   // Switch to a different thread if ready
-   vTaskSwitchContext(); // this function changes TCB pointer to ready Task
+   /* Switch to a different thread if ready */
+   vTaskSwitchContext(); 
 
-   // Temporary override SPLIM to the MAX RAM Address to avoid Stack-error-trap
-   // the appropiate SPLIM for the next task will be restored inside portRESTORE_CONTEXT
+   /* Temporary override SPLIM to the MAX RAM Address to avoid Stack-error-trap the appropriate SPLIM 
+    * for the next task will be restored inside portRESTORE_CONTEXT */
    set_SPLIM(MAX_RAM_LIM_ADDRESS); 
 
-   // -> we should still be on ctx-0 after pointing to the new TCB 
-   // Restore the context of whichever task is going to run 
+   /* we should still be on ctx-0 after pointing to the new TCB, Restore the context of whichever task is going to run */
    portRESTORE_CONTEXT();  
 
                     
-   // A portYIELD_WITHIN_API elevates IPL using portDISABLE_INTERRUPTS to avoid
-   // collisions with other ISR that could yield it just in case portYIELD was called from API
+   /* A portYIELD_WITHIN_API elevates IPL using portDISABLE_INTERRUPTS to avoid collisions with other ISR that 
+    * could yield it just in case portYIELD was called from API */
    portENABLE_INTERRUPTS();
    
-   // No return to entry-isr
-   // force a retfie to restore PC and SR to next-task
+   /* No return to entry-isr , force a retfie to restore PC and SR to next-task */
     __asm__ volatile ( "retfie" ); 
 }
 
-
-
-void _T1Interrupt( void ) __attribute__ ((interrupt, naked, alias("Systick_Callback")));
-void  __attribute__ ((interrupt, naked)) Systick_Callback(void) 
+void __attribute__((__interrupt__, naked)) configTICK_INTERRUPT_HANDLER( void )
 {   
     IFS1bits.T1IF = 0;
     if( xTaskIncrementTick() != pdFALSE )
-       { 
-        // elevate IPL to avoid collisions with other ISR that could yield
+    { 
+        /* Elevate IPL to avoid collisions with other ISR that could yield */
         portDISABLE_INTERRUPTS(); 
-        // goto portYIELD but don't return
+        /* goto portYIELD but don't return */
         __asm__ volatile ( "GOTO _portYIELD" ); 
-       }
+    }
 }
 
 
 void _GeneralTrap( void ) __attribute__ ((interrupt, naked, alias("software_isr")));
 void  __attribute__ ((interrupt, naked)) software_isr(void) 
 {
-    // _GeneralTrap covers multiple Traps
-    // only portYIELD if the software trap was triggered            
+    /* _GeneralTrap covers multiple Traps only portYIELD if the software trap was triggered */            
     if (INTCON5bits.SOFT == 1) {
         INTCON5bits.SOFT = 0;   
-        // goto portYIELD but don't return
+        /* goto portYIELD but don't return */
         __asm__ volatile ( "GOTO _portYIELD" ); 
     }
 }
