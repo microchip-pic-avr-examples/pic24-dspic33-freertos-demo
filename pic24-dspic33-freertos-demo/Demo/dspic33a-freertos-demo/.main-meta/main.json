@@ -14,11 +14,11 @@
       },
       "compiler": {
          "name": "XC-DSC",
-         "semverRange": "^3.20.0"
+         "semverRange": "^3.10.0"
       },
       "dfp": {
-         "name": "dsPIC33E-GM-GP-MC-GU-MU_DFP",
-         "semverRange": ">=1.3.85"
+         "name": "dsPIC33AK-MC_DFP",
+         "semverRange": ">=1.0.32"
       },
       "configurator": {
          "name": "MCC",
