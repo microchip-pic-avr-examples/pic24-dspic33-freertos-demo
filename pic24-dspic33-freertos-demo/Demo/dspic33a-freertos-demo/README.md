@@ -1,11 +1,11 @@
 ![image](../../../images/microchip.jpg) 
 
-## PIC24 dsPIC33 FreeRTOS Demo
+## dsPIC33A FreeRTOS Demo
 
 ## Summary
 
-This repository contains the freeRTOS demos for Microchip PIC24 and dsPIC device families.
-For the demo applications, MPLAB X and MPLAB XC-DSC are the preferred IDE and compiler respectively with which to build the FreeRTOS demos. 
+This folder contains the freeRTOS demo for dsPIC33AK128MC106 device. 
+For this demo, MPLAB X and MPLAB XC-DSC are the preferred IDE and compiler respectively with which to build the FreeRTOS demos. 
 The board to be used to run this demo is dsPIC33A Curiosity Platform Development Board.
 The version of freeRTOS used in this demo is : freeRTOS v10.5
 
@@ -39,8 +39,8 @@ http://www.freertos.org/FAQHelp.html
 
 ## Hardware Used
 
-- dsPIC33A Curiosity Platform Development Board (https://www.microchip.com/DM240001-2)
-- dsPIC33AK128MC106 DIM (https://www.microchip.com/MA330025-1)
+- dsPIC33A Curiosity Platform Development Board (https://www.microchip.com/EV74H48A)
+- dsPIC33AK128MC106 DIM (https://www.microchip.com/EV02G02A)
 
 ## Hardware Setup
 - For UART communication task - short pins p100 and p102 on Jumper J10.
