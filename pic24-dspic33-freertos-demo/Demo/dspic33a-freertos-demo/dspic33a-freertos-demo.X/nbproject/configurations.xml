@@ -66,13 +66,13 @@
         <targetDevice>dsPIC33AK128MC106</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>pkob4hybrid</platformTool>
+        <platformTool>noID</platformTool>
         <languageToolchain>XCDSC</languageToolchain>
         <languageToolchainVersion>3.10</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="dsPIC33AK-MC_DFP" vendor="Microchip" version="1.0.13"/>
+        <pack name="dsPIC33AK-MC_DFP" vendor="Microchip" version="1.0.33"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
