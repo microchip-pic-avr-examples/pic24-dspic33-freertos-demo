@@ -1,3 +1,13 @@
+# PIC24 DSPIC33 FREERTOS DEMO v1.2.1
+### Release Highlights
+
+Patch release to make the demo compatible with the latest DFP's.
+
+# PIC24 DSPIC33 FREERTOS DEMO v1.2.0
+### Release Highlights
+
+freeRTOS demo support added for dsPIC33A device.
+
 # PIC24 DSPIC33 FREERTOS DEMO v1.1.1
 ### Release Highlights
 
