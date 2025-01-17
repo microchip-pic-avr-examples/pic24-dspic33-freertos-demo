@@ -4,7 +4,7 @@
    "content": {
       "metaDataVersion": "1.3.0",
       "name": "com.microchip.mplabx.project.dspic33e-freertos-demo",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "displayName": "dsPIC33F FreeRTOS Demo",
       "projectName": "dspic33f-freertos-demo",
       "shortDescription": "dsPIC33F FreeRTOS Demo",
