@@ -1,11 +1,11 @@
 ![image](images/microchip.jpg)
 
-## PIC24 dsPIC33 FreeRTOS Demo
+## dsPIC33 and PIC24 FreeRTOS Demo
 
 ## Summary
 
-This repository contains the freeRTOS demos for Microchip device families like PIC24, dsPIC33E, dsPIC33F and dsPIC33C.
-For the demo applications, MPLAB X and MPLAB XC16 are the preferred IDE and compiler respectively with which to build the FreeRTOS demos.
+This repository contains the freeRTOS demos for Microchip device families like dsPIC33A, dsPIC33C, dsPIC33E, dsPIC33F and PIC24.
+For the demo applications, MPLAB X ,XC16 or XC-DSC are the preferred IDE and compiler respectively with which to build the FreeRTOS demos.
 The board to be used to run the demo is Explorer 16/32 (Explore 16/32 is backward compatible with Explorer 16).
 The version of freeRTOS used in this demo is : freeRTOS v10.5.1
 
@@ -32,8 +32,8 @@ http://www.freertos.org/FAQHelp.html
 
 ## Software Used
 
-- MPLAB® X IDE v6.0.0 or newer (https://www.microchip.com/mplabx)
-- MPLAB® XC-DSC 3.20.0 or newer (https://www.microchip.com/xcdsc)
+- MPLAB® X IDE v6.20 or newer (https://www.microchip.com/mplabx)
+- MPLAB® XC-DSC v3.20 or newer (https://www.microchip.com/xcdsc)
 - Any of the serial terminal application. Example: Tera Term (https://ttssh2.osdn.jp/index.html.en)
 
 
