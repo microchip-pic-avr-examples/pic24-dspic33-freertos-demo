@@ -29,7 +29,9 @@
 #ifndef FREERTOS_CONFIG_H
 #define FREERTOS_CONFIG_H
 
+#ifndef __ASSEMBLER__
 #include "xc.h"
+#endif
 
 /*-----------------------------------------------------------
  * Application specific definitions.
