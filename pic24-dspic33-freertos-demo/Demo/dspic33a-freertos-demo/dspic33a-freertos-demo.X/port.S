@@ -181,6 +181,7 @@ _portYIELD:
     .extern _xTaskIncrementTick
     .extern _portYIELD
 __T1Interrupt:
+    ;Clear IFS1bits.T1IF
     BCLR.B 0x96, #0
     RCALL _xTaskIncrementTick
     CP.L W0, #0
@@ -206,6 +207,7 @@ __GeneralTrap:
     MOV.BZ W0, W0
     CP.B W0, #1
     BRA NZ, _GeneralTrapExit
+    ;Clear INTCON5bits.SOFT
     BCLR.b 0x83, #7
     GOTO _portYIELD
     
