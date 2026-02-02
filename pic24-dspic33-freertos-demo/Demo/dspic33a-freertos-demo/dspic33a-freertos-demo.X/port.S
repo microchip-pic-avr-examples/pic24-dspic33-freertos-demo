@@ -2,7 +2,7 @@
    
     .global _portYIELD
     .extern _vTaskSwitchContext
-    .equ    MAX_RAM_LIM_ADDRESS, 0x7FFC
+    .equ    MAX_RAM_LIM_ADDRESS, 0x00007FFC
     .section .text
 _portYIELD:
     CTXTSWP #0x0

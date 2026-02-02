@@ -388,7 +388,7 @@ void vApplicationStackOverflowHook( TaskHandle_t xTask, char *pcTaskName )
 
 __attribute__(( weak )) void vApplicationSetupTickTimerInterrupt( void )
 {
-    const uint32_t ulCompareMatch = ( ( configCPU_CLOCK_HZ / portTIMER_PRESCALE ) / configTICK_RATE_HZ ) - 1;
+    const uint32_t ulCompareMatch = ( ( (configCPU_CLOCK_HZ / 2) / portTIMER_PRESCALE ) / configTICK_RATE_HZ ) - 1;
 
 	/* Prescale of 8. */
 	T1CON = 0;
