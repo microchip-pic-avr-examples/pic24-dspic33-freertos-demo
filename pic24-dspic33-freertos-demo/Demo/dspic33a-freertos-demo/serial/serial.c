@@ -104,7 +104,7 @@ xComPortHandle xSerialPortInitMinimal( unsigned long ulWantedBaud, unsigned port
 	U2CONbits.SIDL	= serCONTINUE_IN_IDLE_MODE;
 	U2CONbits.ON	= serUART_ENABLED;
 
-	U2BRG = (unsigned short)(( (float)configCPU_CLOCK_HZ / ( (float)16 * (float)ulWantedBaud ) ) - (float)0.5);
+	U2BRG = (unsigned short)(( ((float)configCPU_CLOCK_HZ/2) / ( (float)16 * (float)ulWantedBaud ) ) - (float)0.5);
 
     U2CONbits.RXEN		= serRX_ENABLE;
 	U2CONbits.TXEN		= serTX_ENABLE;

@@ -1,3 +1,7 @@
+# PIC24 DSPIC33 FREERTOS DEMO v1.2.2
+### Release Highlights
+
+Patch release to address coding guidelines.
 # PIC24 DSPIC33 FREERTOS DEMO v1.2.1
 ### Release Highlights
 
