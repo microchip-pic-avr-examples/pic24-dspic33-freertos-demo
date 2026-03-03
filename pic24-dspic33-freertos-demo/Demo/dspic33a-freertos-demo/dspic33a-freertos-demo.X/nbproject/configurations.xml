@@ -32,6 +32,7 @@
         <itemPath>../../../Source/queue.c</itemPath>
         <itemPath>../../../Source/tasks.c</itemPath>
         <itemPath>../../../Source/portable/MPLAB/dsPIC33A/port.c</itemPath>
+        <itemPath>port.S</itemPath>
       </logicalFolder>
       <logicalFolder name="Standard Demo Source"
                      displayName="Standard Demo Source"
@@ -68,11 +69,11 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>pkob4hybrid</platformTool>
         <languageToolchain>XCDSC</languageToolchain>
-        <languageToolchainVersion>3.20</languageToolchainVersion>
+        <languageToolchainVersion>3.21</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="dsPIC33AK-MC_DFP" vendor="Microchip" version="1.0.33"/>
+        <pack name="dsPIC33AK-MC_DFP" vendor="Microchip" version="1.1.87"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -135,7 +136,7 @@
         <property key="oXC16gcc-sfr-warn" value="false"/>
         <property key="oXC16gcc-smar-io-lvl" value="1"/>
         <property key="oXC16gcc-smart-io-fmt" value=""/>
-        <property key="optimization-level" value="1"/>
+        <property key="optimization-level" value="0"/>
         <property key="post-instruction-scheduling" value="default"/>
         <property key="pre-instruction-scheduling" value="default"/>
         <property key="preprocessor-macros" value=""/>
@@ -235,112 +236,6 @@
         <property key="relaxed-math" value="false"/>
         <property key="save-temps" value="true"/>
       </C30Global>
-      <ICD3PlatformTool>
-        <property key="ADC 1" value="true"/>
-        <property key="ADC 2" value="true"/>
-        <property key="AutoSelectMemRanges" value="auto"/>
-        <property key="COMPARATOR" value="true"/>
-        <property key="CRC" value="true"/>
-        <property key="DCI" value="true"/>
-        <property key="Freeze All Other Peripherals" value="true"/>
-        <property key="I2C1" value="true"/>
-        <property key="I2C2" value="true"/>
-        <property key="INPUT CAPTURE 1" value="true"/>
-        <property key="INPUT CAPTURE 10" value="true"/>
-        <property key="INPUT CAPTURE 11" value="true"/>
-        <property key="INPUT CAPTURE 12" value="true"/>
-        <property key="INPUT CAPTURE 13" value="true"/>
-        <property key="INPUT CAPTURE 14" value="true"/>
-        <property key="INPUT CAPTURE 15" value="true"/>
-        <property key="INPUT CAPTURE 16" value="true"/>
-        <property key="INPUT CAPTURE 2" value="true"/>
-        <property key="INPUT CAPTURE 3" value="true"/>
-        <property key="INPUT CAPTURE 4" value="true"/>
-        <property key="INPUT CAPTURE 5" value="true"/>
-        <property key="INPUT CAPTURE 6" value="true"/>
-        <property key="INPUT CAPTURE 7" value="true"/>
-        <property key="INPUT CAPTURE 8" value="true"/>
-        <property key="INPUT CAPTURE 9" value="true"/>
-        <property key="OUTPUT COMPARE 1" value="true"/>
-        <property key="OUTPUT COMPARE 10" value="true"/>
-        <property key="OUTPUT COMPARE 11" value="true"/>
-        <property key="OUTPUT COMPARE 12" value="true"/>
-        <property key="OUTPUT COMPARE 13" value="true"/>
-        <property key="OUTPUT COMPARE 14" value="true"/>
-        <property key="OUTPUT COMPARE 15" value="true"/>
-        <property key="OUTPUT COMPARE 16" value="true"/>
-        <property key="OUTPUT COMPARE 2" value="true"/>
-        <property key="OUTPUT COMPARE 3" value="true"/>
-        <property key="OUTPUT COMPARE 4" value="true"/>
-        <property key="OUTPUT COMPARE 5" value="true"/>
-        <property key="OUTPUT COMPARE 6" value="true"/>
-        <property key="OUTPUT COMPARE 7" value="true"/>
-        <property key="OUTPUT COMPARE 8" value="true"/>
-        <property key="OUTPUT COMPARE 9" value="true"/>
-        <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
-        <property key="PWM" value="true"/>
-        <property key="REAL TIME CLOCK AND CALENDAR" value="true"/>
-        <property key="SPI 1" value="true"/>
-        <property key="SPI 2" value="true"/>
-        <property key="SPI 3" value="true"/>
-        <property key="SPI 4" value="true"/>
-        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
-        <property key="TIMER1" value="true"/>
-        <property key="TIMER2" value="true"/>
-        <property key="TIMER3" value="true"/>
-        <property key="TIMER4" value="true"/>
-        <property key="TIMER5" value="true"/>
-        <property key="TIMER6" value="true"/>
-        <property key="TIMER7" value="true"/>
-        <property key="TIMER8" value="true"/>
-        <property key="TIMER9" value="true"/>
-        <property key="ToolFirmwareFilePath"
-                  value="Press to browse for a specific firmware version"/>
-        <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
-        <property key="UART 1" value="true"/>
-        <property key="UART 2" value="true"/>
-        <property key="UART 3" value="true"/>
-        <property key="UART 4" value="true"/>
-        <property key="USB" value="true"/>
-        <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="hwtoolclock.frcindebug" value="false"/>
-        <property key="memories.aux" value="false"/>
-        <property key="memories.bootflash" value="false"/>
-        <property key="memories.configurationmemory" value="true"/>
-        <property key="memories.configurationmemory2" value="true"/>
-        <property key="memories.dataflash" value="true"/>
-        <property key="memories.eeprom" value="true"/>
-        <property key="memories.flashdata" value="true"/>
-        <property key="memories.id" value="true"/>
-        <property key="memories.instruction.ram" value="true"/>
-        <property key="memories.instruction.ram.end"
-                  value="${memories.instruction.ram.end.value}"/>
-        <property key="memories.instruction.ram.start"
-                  value="${memories.instruction.ram.start.value}"/>
-        <property key="memories.programmemory" value="true"/>
-        <property key="memories.programmemory.end" value="0x2abff"/>
-        <property key="memories.programmemory.partition2" value="true"/>
-        <property key="memories.programmemory.partition2.end"
-                  value="${memories.programmemory.partition2.end.value}"/>
-        <property key="memories.programmemory.partition2.start"
-                  value="${memories.programmemory.partition2.start.value}"/>
-        <property key="memories.programmemory.start" value="0x0"/>
-        <property key="poweroptions.powerenable" value="false"/>
-        <property key="programoptions.donoteraseauxmem" value="false"/>
-        <property key="programoptions.eraseb4program" value="true"/>
-        <property key="programoptions.preservedataflash" value="false"/>
-        <property key="programoptions.preserveeeprom" value="false"/>
-        <property key="programoptions.preserveprogramrange" value="false"/>
-        <property key="programoptions.preserveprogramrange.end" value="0x2abff"/>
-        <property key="programoptions.preserveprogramrange.start" value="0x0"/>
-        <property key="programoptions.preserveuserid" value="false"/>
-        <property key="programoptions.programcalmem" value="false"/>
-        <property key="programoptions.programuserotp" value="false"/>
-        <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
-        <property key="programoptions.usehighvoltageonmclr" value="false"/>
-        <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.25"/>
-      </ICD3PlatformTool>
       <ICD4Tool>
         <property key="ADC1" value="true"/>
         <property key="ADC2" value="true"/>
@@ -453,113 +348,6 @@
                   value="Press to select which tool pack to use"/>
         <property key="voltagevalue" value="3.25"/>
       </ICD4Tool>
-      <PICkit3PlatformTool>
-        <property key="ADC 1" value="true"/>
-        <property key="ADC 2" value="true"/>
-        <property key="AutoSelectMemRanges" value="auto"/>
-        <property key="COMPARATOR" value="true"/>
-        <property key="CRC" value="true"/>
-        <property key="DCI" value="true"/>
-        <property key="Freeze All Other Peripherals" value="true"/>
-        <property key="I2C1" value="true"/>
-        <property key="I2C2" value="true"/>
-        <property key="INPUT CAPTURE 1" value="true"/>
-        <property key="INPUT CAPTURE 10" value="true"/>
-        <property key="INPUT CAPTURE 11" value="true"/>
-        <property key="INPUT CAPTURE 12" value="true"/>
-        <property key="INPUT CAPTURE 13" value="true"/>
-        <property key="INPUT CAPTURE 14" value="true"/>
-        <property key="INPUT CAPTURE 15" value="true"/>
-        <property key="INPUT CAPTURE 16" value="true"/>
-        <property key="INPUT CAPTURE 2" value="true"/>
-        <property key="INPUT CAPTURE 3" value="true"/>
-        <property key="INPUT CAPTURE 4" value="true"/>
-        <property key="INPUT CAPTURE 5" value="true"/>
-        <property key="INPUT CAPTURE 6" value="true"/>
-        <property key="INPUT CAPTURE 7" value="true"/>
-        <property key="INPUT CAPTURE 8" value="true"/>
-        <property key="INPUT CAPTURE 9" value="true"/>
-        <property key="OUTPUT COMPARE 1" value="true"/>
-        <property key="OUTPUT COMPARE 10" value="true"/>
-        <property key="OUTPUT COMPARE 11" value="true"/>
-        <property key="OUTPUT COMPARE 12" value="true"/>
-        <property key="OUTPUT COMPARE 13" value="true"/>
-        <property key="OUTPUT COMPARE 14" value="true"/>
-        <property key="OUTPUT COMPARE 15" value="true"/>
-        <property key="OUTPUT COMPARE 16" value="true"/>
-        <property key="OUTPUT COMPARE 2" value="true"/>
-        <property key="OUTPUT COMPARE 3" value="true"/>
-        <property key="OUTPUT COMPARE 4" value="true"/>
-        <property key="OUTPUT COMPARE 5" value="true"/>
-        <property key="OUTPUT COMPARE 6" value="true"/>
-        <property key="OUTPUT COMPARE 7" value="true"/>
-        <property key="OUTPUT COMPARE 8" value="true"/>
-        <property key="OUTPUT COMPARE 9" value="true"/>
-        <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
-        <property key="PWM" value="true"/>
-        <property key="REAL TIME CLOCK AND CALENDAR" value="true"/>
-        <property key="SPI 1" value="true"/>
-        <property key="SPI 2" value="true"/>
-        <property key="SPI 3" value="true"/>
-        <property key="SPI 4" value="true"/>
-        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
-        <property key="TIMER1" value="true"/>
-        <property key="TIMER2" value="true"/>
-        <property key="TIMER3" value="true"/>
-        <property key="TIMER4" value="true"/>
-        <property key="TIMER5" value="true"/>
-        <property key="TIMER6" value="true"/>
-        <property key="TIMER7" value="true"/>
-        <property key="TIMER8" value="true"/>
-        <property key="TIMER9" value="true"/>
-        <property key="ToolFirmwareFilePath"
-                  value="Press to browse for a specific firmware version"/>
-        <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
-        <property key="UART 1" value="true"/>
-        <property key="UART 2" value="true"/>
-        <property key="UART 3" value="true"/>
-        <property key="UART 4" value="true"/>
-        <property key="USB" value="true"/>
-        <property key="debugoptions.debug-startup" value="Use system settings"/>
-        <property key="debugoptions.reset-behaviour" value="Use system settings"/>
-        <property key="debugoptions.useswbreakpoints" value="false"/>
-        <property key="event.recorder.enabled" value="false"/>
-        <property key="event.recorder.scvd.files" value=""/>
-        <property key="hwtoolclock.frcindebug" value="false"/>
-        <property key="lastid" value=""/>
-        <property key="memories.aux" value="false"/>
-        <property key="memories.bootflash" value="true"/>
-        <property key="memories.configurationmemory" value="true"/>
-        <property key="memories.configurationmemory2" value="true"/>
-        <property key="memories.dataflash" value="true"/>
-        <property key="memories.eeprom" value="true"/>
-        <property key="memories.flashdata" value="true"/>
-        <property key="memories.id" value="true"/>
-        <property key="memories.instruction.ram" value="true"/>
-        <property key="memories.instruction.ram.ranges"
-                  value="${memories.instruction.ram.ranges}"/>
-        <property key="memories.programmemory" value="true"/>
-        <property key="memories.programmemory.ranges" value="0-7fffff"/>
-        <property key="poweroptions.powerenable" value="true"/>
-        <property key="programmertogo.imagename" value=""/>
-        <property key="programoptions.donoteraseauxmem" value="false"/>
-        <property key="programoptions.eraseb4program" value="true"/>
-        <property key="programoptions.pgmspeed" value="2"/>
-        <property key="programoptions.preservedataflash" value="false"/>
-        <property key="programoptions.preservedataflash.ranges"
-                  value="${programoptions.preservedataflash.ranges}"/>
-        <property key="programoptions.preserveeeprom" value="false"/>
-        <property key="programoptions.preserveeeprom.ranges" value=""/>
-        <property key="programoptions.preserveprogram.ranges" value=""/>
-        <property key="programoptions.preserveprogramrange" value="false"/>
-        <property key="programoptions.preserveuserid" value="false"/>
-        <property key="programoptions.programcalmem" value="false"/>
-        <property key="programoptions.programuserotp" value="false"/>
-        <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
-        <property key="programoptions.usehighvoltageonmclr" value="false"/>
-        <property key="programoptions.uselvpprogramming" value="false"/>
-        <property key="voltagevalue" value="3.5"/>
-      </PICkit3PlatformTool>
       <Tool>
         <property key="ADC 1" value="true"/>
         <property key="ADC 2" value="true"/>
@@ -713,7 +501,7 @@
         <property key="programoptions.pgdconfig" value="pull down"/>
         <property key="programoptions.pgdresistor.value" value="4.7"/>
         <property key="programoptions.pgmentry.voltage" value="low"/>
-        <property key="programoptions.pgmspeed" value="Min"/>
+        <property key="programoptions.pgmspeed" value="Med"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preservedataflash.ranges"
                   value="${memories.dataflash.default}"/>
@@ -731,7 +519,7 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="1.14.1168"/>
+        <property key="toolpack.updateoptions.packversion" value="1.19.1503"/>
         <property key="voltagevalue" value="3.25"/>
       </Tool>
       <pkob4hybrid>
@@ -818,7 +606,7 @@
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.pgmentry.voltage" value="low"/>
-        <property key="programoptions.pgmspeed" value="Min"/>
+        <property key="programoptions.pgmspeed" value="Med"/>
         <property key="programoptions.preservedataflash" value="false"/>
         <property key="programoptions.preservedataflash.ranges"
                   value="${memories.dataflash.default}"/>
@@ -834,7 +622,7 @@
         <property key="programoptions.testmodeentrymethod" value="VDDFirst"/>
         <property key="toolpack.updateoptions"
                   value="toolpack.updateoptions.specifictoolpack"/>
-        <property key="toolpack.updateoptions.packversion" value="1.14.1168"/>
+        <property key="toolpack.updateoptions.packversion" value="1.19.1503"/>
       </pkob4hybrid>
     </conf>
   </confs>
